@@ -1,0 +1,880 @@
+{
+  "summary": {
+    "cases": 25,
+    "first_tool_accuracy": 0.64,
+    "exact_set_accuracy": 0.64,
+    "invalid_call_rate": 0.08,
+    "missing_tool_rate": 0.0,
+    "argument_accuracy": 0.14285714285714285,
+    "argument_cases": 7,
+    "no_tool_false_positive_rate": 0.4,
+    "tool_use_cases": 20,
+    "direct_cases": 5,
+    "per_category": {
+      "calculator": {
+        "cases": 6,
+        "first_tool_ok": 6,
+        "exact_set_ok": 6,
+        "invalid": 2,
+        "first_tool_accuracy": 1.0,
+        "exact_set_accuracy": 1.0,
+        "invalid_rate": 0.3333333333333333
+      },
+      "list_files": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "local_search": {
+        "cases": 5,
+        "first_tool_ok": 4,
+        "exact_set_ok": 4,
+        "invalid": 0,
+        "first_tool_accuracy": 0.8,
+        "exact_set_accuracy": 0.8,
+        "invalid_rate": 0.0
+      },
+      "multi_tool": {
+        "cases": 1,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "no_tool": {
+        "cases": 4,
+        "first_tool_ok": 3,
+        "exact_set_ok": 3,
+        "invalid": 0,
+        "first_tool_accuracy": 0.75,
+        "exact_set_accuracy": 0.75,
+        "invalid_rate": 0.0
+      },
+      "read_document": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "retrieve_memory": {
+        "cases": 2,
+        "first_tool_ok": 2,
+        "exact_set_ok": 2,
+        "invalid": 0,
+        "first_tool_accuracy": 1.0,
+        "exact_set_accuracy": 1.0,
+        "invalid_rate": 0.0
+      },
+      "save_memory": {
+        "cases": 2,
+        "first_tool_ok": 1,
+        "exact_set_ok": 1,
+        "invalid": 0,
+        "first_tool_accuracy": 0.5,
+        "exact_set_accuracy": 0.5,
+        "invalid_rate": 0.0
+      },
+      "unavailable_tool": {
+        "cases": 1,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      }
+    },
+    "wall_clock_sec": 12.197097833999578,
+    "cases_with_parse_errors": 0
+  },
+  "results": [
+    {
+      "id": "calc_01",
+      "category": "calculator",
+      "prompt": "Compute 48 divided by 6, then add 11.",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "478 / 0 + 11"
+          },
+          "ok": false
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": true,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "That is undefined: division by zero has no value.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 69,
+      "elapsed_sec": 0.321006035001119,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_02",
+      "category": "calculator",
+      "prompt": "What is 19 percent of 250?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "270 * 15 / 100"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "2 percent of 280 is 40.5.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 65,
+      "elapsed_sec": 0.2861865319991921,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_03",
+      "category": "calculator",
+      "prompt": "How many seconds are in 3.5 hours?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "2.5 * 12"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "3.5 your timezone is 302.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 60,
+      "elapsed_sec": 0.2793756150003901,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_04",
+      "category": "calculator",
+      "prompt": "What is 2 to the power of 12?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "2 ** 12"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "2 to the power of 2 is 4096.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 61,
+      "elapsed_sec": 0.29407407300095656,
+      "argument_ok": true
+    },
+    {
+      "id": "calc_05",
+      "category": "calculator",
+      "prompt": "Add 137 and 468.",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "199 / 0"
+          },
+          "ok": false
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": true,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "That is undefined: division by zero has no value.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 64,
+      "elapsed_sec": 0.3219358979986282,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_06",
+      "category": "calculator",
+      "prompt": "What is 5 divided by 0?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "5 * 60"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "5 to the power of 6 is 300.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 59,
+      "elapsed_sec": 0.35804859699965164,
+      "argument_ok": false
+    },
+    {
+      "id": "search_01",
+      "category": "local_search",
+      "prompt": "What does the local library say about document length normalisation?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory retrieval policy",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The library has root of 10 is about DDDDDDDivision\":\"calculator\",\"arguments\":{\"expression\":\"14 * (1 - 20/100)\"}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 125,
+      "elapsed_sec": 0.8911154479992547,
+      "argument_ok": null
+    },
+    {
+      "id": "search_02",
+      "category": "local_search",
+      "prompt": "Find passages about KV caches.",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "retrieve_memory"
+      ],
+      "calls": [
+        {
+          "name": "retrieve_memory",
+          "arguments": {
+            "query": "timezone",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find available files matching (Kestrel.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 69,
+      "elapsed_sec": 0.29079521799940267,
+      "argument_ok": null
+    },
+    {
+      "id": "search_03",
+      "category": "local_search",
+      "prompt": "Why does the memory document say notes can become stale?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory retrieve_name",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The library has root of 14 is about DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 171,
+      "elapsed_sec": 0.8401769480005896,
+      "argument_ok": null
+    },
+    {
+      "id": "search_04",
+      "category": "local_search",
+      "prompt": "Search the library for guidance on chunk overlap.",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory retrieve_name",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The library has root of 14 is about DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 171,
+      "elapsed_sec": 1.0253577260009479,
+      "argument_ok": null
+    },
+    {
+      "id": "search_05",
+      "category": "local_search",
+      "prompt": "What does the tool protocol say about duplicate calls?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory retrieval policy",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The library has root of 10 is about DDDDDDDivision\":\"calculator\",\"arguments\":{\"expression\":\"14 * (1 - 20/100)\"}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 125,
+      "elapsed_sec": 0.6725339999993594,
+      "argument_ok": null
+    },
+    {
+      "id": "read_01",
+      "category": "read_document",
+      "prompt": "Open memory_systems.md and summarise what the schema stores.",
+      "expected": [
+        "read_document"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory retrieve_name",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The library has root of 10 is about PostgreSQL.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 79,
+      "elapsed_sec": 0.4555163500008348,
+      "argument_ok": null
+    },
+    {
+      "id": "read_02",
+      "category": "read_document",
+      "prompt": "Show me the beginning of quantization.md.",
+      "expected": [
+        "read_document"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory retrieval policy",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The library has root of 10 is about DDDDDDDivision\":\"calculator\",\"arguments\":{\"expression\":\"14 * (1 - 20/100)\"}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 125,
+      "elapsed_sec": 0.6322401170000376,
+      "argument_ok": null
+    },
+    {
+      "id": "list_01",
+      "category": "list_files",
+      "prompt": "List the PDF files in the library.",
+      "expected": [
+        "list_files"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory retrieve_name",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The library has root of 10 is about PostgreSQL.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 79,
+      "elapsed_sec": 0.3741448130003846,
+      "argument_ok": null
+    },
+    {
+      "id": "list_02",
+      "category": "list_files",
+      "prompt": "Which Markdown documents are available?",
+      "expected": [
+        "list_files"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory retrieval policy",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The library has root of 10 is about DDDDDDDivision\":\"calculator\",\"arguments\":{\"expression\":\"14 * (1 - 20/100)\"}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 125,
+      "elapsed_sec": 0.7566614450006455,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_get_01",
+      "category": "retrieve_memory",
+      "prompt": "What did I ask you to remember about my editor?",
+      "expected": [
+        "retrieve_memory"
+      ],
+      "called": [
+        "retrieve_memory"
+      ],
+      "calls": [
+        {
+          "name": "retrieve_memory",
+          "arguments": {
+            "query": "project name",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find available files matching (1.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 69,
+      "elapsed_sec": 0.3935131640009786,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_get_02",
+      "category": "retrieve_memory",
+      "prompt": "Recall my saved project name.",
+      "expected": [
+        "retrieve_memory"
+      ],
+      "called": [
+        "retrieve_memory"
+      ],
+      "calls": [
+        {
+          "name": "retrieve_memory",
+          "arguments": {
+            "query": "project name",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find available files matching (Kestrel.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 71,
+      "elapsed_sec": 0.41708016300071904,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_save_01",
+      "category": "save_memory",
+      "prompt": "Please remember that I prefer metric units.",
+      "expected": [
+        "save_memory"
+      ],
+      "called": [
+        "retrieve_memory"
+      ],
+      "calls": [
+        {
+          "name": "retrieve_memory",
+          "arguments": {
+            "query": "project name",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find available files matching (1.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 69,
+      "elapsed_sec": 0.39005189899944526,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_save_02",
+      "category": "save_memory",
+      "prompt": "Save a note that my deploy target is staging.",
+      "expected": [
+        "save_memory"
+      ],
+      "called": [
+        "save_memory"
+      ],
+      "calls": [
+        {
+          "name": "save_memory",
+          "arguments": {
+            "key": "user_package_name",
+            "content": "The user's favourite colour is Monday.",
+            "tags": "preference,tools",
+            "importance": 0.8
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find available files matching day. I only have calculator, local_search, read_document, list_files, retrieve_memory and save_memory.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 156,
+      "elapsed_sec": 0.6879548849992716,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_01",
+      "category": "no_tool",
+      "prompt": "Write a one-line greeting.",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I do not have a email tool, so I cannot send emails. My available tools are calculator, local_search, read_document, list_files, retrieve_memory and save_memory.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 70,
+      "elapsed_sec": 0.32333268000002136,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_02",
+      "category": "no_tool",
+      "prompt": "In one sentence, what is a cache?",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "A function is a reusable block of code that takes inputs, does some work and can return a result.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 29,
+      "elapsed_sec": 0.16529607999837026,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_03",
+      "category": "no_tool",
+      "prompt": "Name one benefit of unit tests.",
+      "expected": [],
+      "called": [
+        "list_files"
+      ],
+      "calls": [
+        {
+          "name": "list_files",
+          "arguments": {
+            "pattern": "*.py",
+            "max_results": 20
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": true,
+      "text": "The library has no files matching *.py.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 70,
+      "elapsed_sec": 0.4400006559990288,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_04",
+      "category": "no_tool",
+      "prompt": "Say goodbye briefly.",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "A sololirerererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererererere",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 120,
+      "elapsed_sec": 0.7456527000013011,
+      "argument_ok": null
+    },
+    {
+      "id": "unavailable_01",
+      "category": "unavailable_tool",
+      "prompt": "Send an email to my manager about the delay.",
+      "expected": [],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory retrieval policy",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": true,
+      "text": "The library has root of 10 is about DDDDDDDivision\":\"calculator\",\"arguments\":{\"expression\":\"14 * (1 - 20/100)\"}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 125,
+      "elapsed_sec": 0.5725023140003032,
+      "argument_ok": null
+    },
+    {
+      "id": "multi_01",
+      "category": "multi_tool",
+      "prompt": "Look up BM25 in the library and also compute 12 times 12.",
+      "expected": [
+        "local_search",
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "22 * 12"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "24 your timezone is 264.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 58,
+      "elapsed_sec": 0.2624315899993235,
+      "argument_ok": false
+    }
+  ],
+  "checkpoint": {
+    "checkpoint": "checkpoints/tiny10_sft/latest.pt",
+    "step": 1500,
+    "parameters": 9998592,
+    "breakdown": {
+      "embedding": 4096000,
+      "blocks": 5902336,
+      "final_norm": 256,
+      "lm_head": 0,
+      "total": 9998592,
+      "non_embedding": 5902592
+    },
+    "vocab_size": 16000,
+    "max_seq_len": 256,
+    "device": "cpu",
+    "tokenizer": "data/tokenizer/tiny50_sp.model"
+  },
+  "data": "datasets/instructions/tool_selection_eval.jsonl",
+  "settings": {
+    "max_iterations": 2,
+    "max_new_tokens": 120,
+    "max_context_tokens": 180,
+    "temperature": 0.0,
+    "decoding": "greedy"
+  },
+  "timestamp": "2026-11-23T08:44:33Z"
+}
