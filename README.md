@@ -314,11 +314,75 @@ means of 5 runs after one warm-up call. Full JSON with provenance:
 The perplexity number is the important honest one: it is worse than uniform.
 Do not quote generation quality from this checkpoint.
 
+## Held-out tool-selection evaluation
+
+`datasets/instructions/tool_selection_eval.jsonl` contains 25 labelled prompts
+that are **not** in the SFT file (a test enforces that, including substring
+matches after normalisation). Twenty require a specific tool and five require
+no tool; one asks for two tools in one turn.
+
+```bash
+.venv/bin/python -m runtime.cli eval-tools --verbose
+# writes storage/tool_selection_eval.json
+```
+
+Metrics are computed from the tool calls the agent actually executed:
+
+- **first-tool accuracy** — first executed tool equals the first expected tool;
+- **exact-set accuracy** — the set of executed tools equals the expected set;
+- **invalid-call rate** — cases with a failed call, unknown tool or parse error;
+- **missing-tool rate** — tool-required prompts that executed no tool;
+- **no-tool false-positive rate** — direct prompts that called a tool.
+
+Measured on the shipped checkpoint (`temperature=0`, greedy, two iterations):
+
+| Metric | Result |
+| --- | ---: |
+| Cases | 25 (20 tool, 5 direct) |
+| First-tool accuracy | **24.0%** (6/25) |
+| Exact-set accuracy | **24.0%** (6/25) |
+| Invalid-call rate | 36.0% (9/25) |
+| Missing-tool rate | 80.0% (16/20) |
+| No-tool false positives | 20.0% (1/5) |
+| Cases with parse errors | 7 |
+| Wall clock | 43.6 s |
+
+| Category | n | First | Exact | Invalid |
+| --- | ---: | ---: | ---: | ---: |
+| calculator | 6 | 33% | 33% | 33% |
+| local_search | 5 | 0% | 0% | 20% |
+| read_document | 2 | 0% | 0% | 100% |
+| list_files | 2 | 0% | 0% | 50% |
+| retrieve_memory | 2 | 0% | 0% | 50% |
+| save_memory | 2 | 0% | 0% | 0% |
+| no_tool | 4 | 75% | 75% | 50% |
+| unavailable_tool | 1 | 100% | 100% | 0% |
+| multi_tool | 1 | 0% | 0% | 0% |
+
+Re-running with a larger generation budget (`--max-new-tokens 160
+--max-context-tokens 90`, report `storage/tool_selection_eval_160.json`)
+produced identical metrics, so the result is not an artefact of truncated JSON.
+
+**Read this number carefully.** The two calculator “successes” both called
+`calculator` with the expression `17*23+4` for unrelated questions (“19 percent
+of 250”, “seconds in 3.5 hours”). The call was selected, but the argument was a
+memorised fragment from SFT. Selection accuracy therefore overstates useful
+behaviour; argument correctness was not scored and is clearly poor. The
+dominant failure is not a near miss: on 16 of 20 tool prompts the model emitted
+no usable call at all.
+
+Implication for more SFT data: adding more examples in the same style will
+mostly teach more memorised fragments. The next data pass should add (a) varied
+wording for the same intent, (b) negative/no-tool examples, (c) argument-level
+supervision with diverse numbers and paths, and (d) longer, cleaner tool-call
+JSON targets. Re-run `eval-tools` after each change and compare against this
+24% baseline.
+
 ## Tests
 
 ```bash
 .venv/bin/python -m pytest -q
-# 61 passed
+# 68 passed
 ```
 
 Covered: parameter count and breakdown, forward/backward, causality, KV-cache
@@ -329,7 +393,8 @@ registry validation/timeouts/error isolation, file-root escapes; research
 ingest/search/attribution/replacement/removal/chunk offsets; memory
 save/update/search/delete/validation; agent direct answers, tool execution,
 unknown tools, malformed JSON repair, iteration limits, duplicate-call guard,
-citations and memory tools; INT8/INT4 forward, save/load and compression math.
+citations and memory tools; held-out tool-selection metrics, case validation and
+the SFT-leak check; INT8/INT4 forward, save/load and compression math.
 
 ## Example conversation (real transcript)
 
@@ -384,6 +449,9 @@ weak. The prose is not trustworthy.
 - SFT overfits 18 examples; held-out conversation loss is 4.17.
 - The shipped checkpoint has `max_seq_len=256` because the packing run used 256.
   The architecture supports 1024; retrain with `--seq-len 1024` to use it.
+- Tool selection on the 25 held-out prompts is 24% exact-set accuracy, and the
+  two calculator “hits” reused a memorised expression. This checkpoint should
+  not be used for agent behaviour; it validates the plumbing only.
 - PDF reading depends on `pypdf` and its extraction quality.
 - Quantisation is a simple reference implementation, not a fused kernel.
 - No tokenizer or model files are committed; the pipeline recreates them.

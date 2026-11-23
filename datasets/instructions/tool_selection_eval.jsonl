@@ -1,0 +1,25 @@
+{"id":"calc_01","category":"calculator","prompt":"Compute 48 divided by 6, then add 11.","expected_tools":["calculator"],"notes":"Arithmetic that must use the tool."}
+{"id":"calc_02","category":"calculator","prompt":"What is 19 percent of 250?","expected_tools":["calculator"],"notes":"Percentage arithmetic."}
+{"id":"calc_03","category":"calculator","prompt":"How many seconds are in 3.5 hours?","expected_tools":["calculator"],"notes":"Unit conversion by multiplication."}
+{"id":"calc_04","category":"calculator","prompt":"What is 2 to the power of 12?","expected_tools":["calculator"],"notes":"Exponentiation."}
+{"id":"calc_05","category":"calculator","prompt":"Add 137 and 468.","expected_tools":["calculator"],"notes":"Simple addition, still requires exactness."}
+{"id":"calc_06","category":"calculator","prompt":"What is 5 divided by 0?","expected_tools":["calculator"],"notes":"Tool must report the undefined result rather than invent one."}
+{"id":"search_01","category":"local_search","prompt":"What does the local library say about document length normalisation?","expected_tools":["local_search"],"notes":"Factual question answerable from the index."}
+{"id":"search_02","category":"local_search","prompt":"Find passages about KV caches.","expected_tools":["local_search"],"notes":"Explicit search request."}
+{"id":"search_03","category":"local_search","prompt":"Why does the memory document say notes can become stale?","expected_tools":["local_search"],"notes":"Needs the memory_systems document."}
+{"id":"search_04","category":"local_search","prompt":"Search the library for guidance on chunk overlap.","expected_tools":["local_search"],"notes":"Another phrasing of a search request."}
+{"id":"search_05","category":"local_search","prompt":"What does the tool protocol say about duplicate calls?","expected_tools":["local_search"],"notes":"Needs tool_use_protocol.md."}
+{"id":"read_01","category":"read_document","prompt":"Open memory_systems.md and summarise what the schema stores.","expected_tools":["read_document"],"notes":"Names one specific file."}
+{"id":"read_02","category":"read_document","prompt":"Show me the beginning of quantization.md.","expected_tools":["read_document"],"notes":"Read a named document rather than search."}
+{"id":"list_01","category":"list_files","prompt":"List the PDF files in the library.","expected_tools":["list_files"],"notes":"Enumerates files; the library may contain none."}
+{"id":"list_02","category":"list_files","prompt":"Which Markdown documents are available?","expected_tools":["list_files"],"notes":"File inventory question."}
+{"id":"memory_get_01","category":"retrieve_memory","prompt":"What did I ask you to remember about my editor?","expected_tools":["retrieve_memory"],"notes":"Recall request, not a new save."}
+{"id":"memory_get_02","category":"retrieve_memory","prompt":"Recall my saved project name.","expected_tools":["retrieve_memory"],"notes":"Explicit recall."}
+{"id":"memory_save_01","category":"save_memory","prompt":"Please remember that I prefer metric units.","expected_tools":["save_memory"],"notes":"Durable preference."}
+{"id":"memory_save_02","category":"save_memory","prompt":"Save a note that my deploy target is staging.","expected_tools":["save_memory"],"notes":"Explicit save request."}
+{"id":"direct_01","category":"no_tool","prompt":"Write a one-line greeting.","expected_tools":[],"notes":"Creative text; no tool needed."}
+{"id":"direct_02","category":"no_tool","prompt":"In one sentence, what is a cache?","expected_tools":[],"notes":"General knowledge answer."}
+{"id":"direct_03","category":"no_tool","prompt":"Name one benefit of unit tests.","expected_tools":[],"notes":"Short opinion, no tool."}
+{"id":"direct_04","category":"no_tool","prompt":"Say goodbye briefly.","expected_tools":[],"notes":"Conversational close."}
+{"id":"unavailable_01","category":"unavailable_tool","prompt":"Send an email to my manager about the delay.","expected_tools":[],"notes":"No email tool exists; must not pretend to call one."}
+{"id":"multi_01","category":"multi_tool","prompt":"Look up BM25 in the library and also compute 12 times 12.","expected_tools":["local_search","calculator"],"notes":"Two independent tools requested in one turn."}

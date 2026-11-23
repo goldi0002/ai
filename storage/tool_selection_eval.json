@@ -1,0 +1,684 @@
+{
+  "summary": {
+    "cases": 25,
+    "first_tool_accuracy": 0.24,
+    "exact_set_accuracy": 0.24,
+    "invalid_call_rate": 0.36,
+    "missing_tool_rate": 0.8,
+    "no_tool_false_positive_rate": 0.2,
+    "tool_use_cases": 20,
+    "direct_cases": 5,
+    "per_category": {
+      "calculator": {
+        "cases": 6,
+        "first_tool_ok": 2,
+        "exact_set_ok": 2,
+        "invalid": 2,
+        "first_tool_accuracy": 0.3333333333333333,
+        "exact_set_accuracy": 0.3333333333333333,
+        "invalid_rate": 0.3333333333333333
+      },
+      "list_files": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 1,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.5
+      },
+      "local_search": {
+        "cases": 5,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 1,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.2
+      },
+      "multi_tool": {
+        "cases": 1,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "no_tool": {
+        "cases": 4,
+        "first_tool_ok": 3,
+        "exact_set_ok": 3,
+        "invalid": 2,
+        "first_tool_accuracy": 0.75,
+        "exact_set_accuracy": 0.75,
+        "invalid_rate": 0.5
+      },
+      "read_document": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 2,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 1.0
+      },
+      "retrieve_memory": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 1,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.5
+      },
+      "save_memory": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "unavailable_tool": {
+        "cases": 1,
+        "first_tool_ok": 1,
+        "exact_set_ok": 1,
+        "invalid": 0,
+        "first_tool_accuracy": 1.0,
+        "exact_set_accuracy": 1.0,
+        "invalid_rate": 0.0
+      }
+    },
+    "wall_clock_sec": 43.592248379995,
+    "cases_with_parse_errors": 7
+  },
+  "results": [
+    {
+      "id": "calc_01",
+      "category": "calculator",
+      "prompt": "Compute 48 divided by 6, then add 11.",
+      "expected": [
+        "calculator"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "{\"name\":\"save_memory\",\"arguments\":{\"expression\":\"round(sqrt(2) * * * * Europe/Berlin.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 58,
+      "elapsed_sec": 1.59296242200071
+    },
+    {
+      "id": "calc_02",
+      "category": "calculator",
+      "prompt": "What is 19 percent of 250?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "17*23+4"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "17 * 23 + 4 = 395.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 63,
+      "elapsed_sec": 1.4342354830005206
+    },
+    {
+      "id": "calc_03",
+      "category": "calculator",
+      "prompt": "How many seconds are in 3.5 hours?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "17*23+4"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "17 * 23 + 4 = 395.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 62,
+      "elapsed_sec": 1.4876661370071815
+    },
+    {
+      "id": "calc_04",
+      "category": "calculator",
+      "prompt": "What is 2 to the power of 12?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "{\"name\":\"calculator\",\"arguments\":{\"expression\":\"87* 23+4\"}}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 42,
+      "elapsed_sec": 0.9448354350024601
+    },
+    {
+      "id": "calc_05",
+      "category": "calculator",
+      "prompt": "Add 137 and 468.",
+      "expected": [
+        "calculator"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": true,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "The\",\"tags\":{\"expression\":\"17 3 0.4.",
+      "errors": [
+        "tool call is not valid JSON: '{\"name\":\"save_memory\",\"arguments\":{\"expression\":\"10 / 0\"}'"
+      ],
+      "iterations": 2,
+      "tokens_generated": 70,
+      "elapsed_sec": 1.7663704349979525
+    },
+    {
+      "id": "calc_06",
+      "category": "calculator",
+      "prompt": "What is 5 divided by 0?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": true,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "{\"name\":\"calculator\",\"arguments\":{\"expression\":\"10 / * 0 euros.",
+      "errors": [
+        "tool call is not valid JSON: '{\"name\":\"calculator\",\"arguments\":{\"expression\":\"17*23+4\",\"limit\":{\"The\":\"round(sqrt(17 10, 2)\"}}'"
+      ],
+      "iterations": 2,
+      "tokens_generated": 112,
+      "elapsed_sec": 2.7706272489886032
+    },
+    {
+      "id": "search_01",
+      "category": "local_search",
+      "prompt": "What does the local library say about document length normalisation?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "{\"name\":\"retrieve_memory\",\"arguments\":{\"query\":\"timezone\",\"limit\":3}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 45,
+      "elapsed_sec": 1.31127812100749
+    },
+    {
+      "id": "search_02",
+      "category": "local_search",
+      "prompt": "Find passages about KV caches.",
+      "expected": [
+        "local_search"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "{\"name\":\"save_memory\",\"arguments\":{\"expression\":\"10 / 0\"}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 39,
+      "elapsed_sec": 1.1238663840049412
+    },
+    {
+      "id": "search_03",
+      "category": "local_search",
+      "prompt": "Why does the memory document say notes can become stale?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": true,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "Saved.",
+      "errors": [
+        "tool call is not valid JSON: '{\"name\":\"retrieve_memory\",\"arguments\":{\"query\":\"timezone\",\"limit\":3}'"
+      ],
+      "iterations": 2,
+      "tokens_generated": 53,
+      "elapsed_sec": 1.5028498010069598
+    },
+    {
+      "id": "search_04",
+      "category": "local_search",
+      "prompt": "Search the library for guidance on chunk overlap.",
+      "expected": [
+        "local_search"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "I do not have a calendar tool. My available tools are calculator, local_search, read_document, list_files, retrieve_memory and save_memory, so I cannot book a meeting.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 79,
+      "elapsed_sec": 2.135235895009828
+    },
+    {
+      "id": "search_05",
+      "category": "local_search",
+      "prompt": "What does the tool protocol say about duplicate calls?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "{\"name\":\"retrieve_memory\",\"arguments\":{\"query\":\"timezone\",\"limit\":3}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 45,
+      "elapsed_sec": 1.0763636549963849
+    },
+    {
+      "id": "read_01",
+      "category": "read_document",
+      "prompt": "Open memory_systems.md and summarise what the schema stores.",
+      "expected": [
+        "read_document"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": true,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "Got it.",
+      "errors": [
+        "tool call is not valid JSON: '{\"name\":\"save_memory\",\"arguments\":{\"query\":\"project_timezone\",\"content\":\"The user\\'s project is called Atlas.\",\"tags\":\"pr'"
+      ],
+      "iterations": 2,
+      "tokens_generated": 97,
+      "elapsed_sec": 2.464299173996551
+    },
+    {
+      "id": "read_02",
+      "category": "read_document",
+      "prompt": "Show me the beginning of quantization.md.",
+      "expected": [
+        "read_document"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": true,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "Saved.",
+      "errors": [
+        "tool call is not valid JSON: '{\"name\":\"save_memory\",\"arguments\":{\"key\":\"user_timezone\",\"limit\":3}'"
+      ],
+      "iterations": 2,
+      "tokens_generated": 54,
+      "elapsed_sec": 1.3155047839973122
+    },
+    {
+      "id": "list_01",
+      "category": "list_files",
+      "prompt": "List the PDF files in the library.",
+      "expected": [
+        "list_files"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": true,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "Europe/Berlin.",
+      "errors": [
+        "tool call is not valid JSON: '{\"name\":\"save_memory\",\"arguments\":{\"key\":\"project_name\",\"limit\":\"The\",\"content\":\"The user\\'s project is called Atlas.\",\"t'",
+        "tool call is not valid JSON: 'Europe/Berlin.'"
+      ],
+      "iterations": 2,
+      "tokens_generated": 108,
+      "elapsed_sec": 2.4382300180004677
+    },
+    {
+      "id": "list_02",
+      "category": "list_files",
+      "prompt": "Which Markdown documents are available?",
+      "expected": [
+        "list_files"
+      ],
+      "called": [
+        "retrieve_memory"
+      ],
+      "calls": [
+        {
+          "name": "retrieve_memory",
+          "arguments": {
+            "query": "timezone",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "You asked me to remember that your timezone is Europe/10, so the calculation is 84 * * 1. 15 = 71.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 114,
+      "elapsed_sec": 2.7729983610042837
+    },
+    {
+      "id": "memory_get_01",
+      "category": "retrieve_memory",
+      "prompt": "What did I ask you to remember about my editor?",
+      "expected": [
+        "retrieve_memory"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "I do not have a calendar tool. My available tools are calculator, local_search, read_document, list_files, retrieve_memory and save_memory, so I cannot book a meeting.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 79,
+      "elapsed_sec": 1.8149644539953442
+    },
+    {
+      "id": "memory_get_02",
+      "category": "retrieve_memory",
+      "prompt": "Recall my saved project name.",
+      "expected": [
+        "retrieve_memory"
+      ],
+      "called": [
+        "save_memory"
+      ],
+      "calls": [
+        {
+          "name": "save_memory",
+          "arguments": {
+            "expression": "17*23+4",
+            "limit": 3
+          },
+          "ok": false
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": true,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 55,
+      "elapsed_sec": 1.418827847999637
+    },
+    {
+      "id": "memory_save_01",
+      "category": "save_memory",
+      "prompt": "Please remember that I prefer metric units.",
+      "expected": [
+        "save_memory"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "{\"name\":\"save_memory\",\"arguments\":{\"query\":\"timezone\",\"limit\":3}}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 44,
+      "elapsed_sec": 1.0265245659975335
+    },
+    {
+      "id": "memory_save_02",
+      "category": "save_memory",
+      "prompt": "Save a note that my deploy target is staging.",
+      "expected": [
+        "save_memory"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "{\"name\":\"save_memory\",\"arguments\":{\"query\":\"timezone\",\"limit\":3}}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 44,
+      "elapsed_sec": 1.150108868998359
+    },
+    {
+      "id": "direct_01",
+      "category": "no_tool",
+      "prompt": "Write a one-line greeting.",
+      "expected": [],
+      "called": [
+        "save_memory"
+      ],
+      "calls": [
+        {
+          "name": "save_memory",
+          "arguments": {
+            "expression": "17*23+4",
+            "limit": 3
+          },
+          "ok": false
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": true,
+      "missed_tool": false,
+      "false_positive": true,
+      "text": "The.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 55,
+      "elapsed_sec": 1.3515423110075062
+    },
+    {
+      "id": "direct_02",
+      "category": "no_tool",
+      "prompt": "In one sentence, what is a cache?",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": true,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "Got it.",
+      "errors": [
+        "tool call is not valid JSON: '{\"name\":\"save_memory\",\"arguments\":{\"expression\":\"timezone\",\"limit\":{\"preference,timezone\":\"The user\\'s timezone is Europe'"
+      ],
+      "iterations": 2,
+      "tokens_generated": 105,
+      "elapsed_sec": 2.4844901129981736
+    },
+    {
+      "id": "direct_03",
+      "category": "no_tool",
+      "prompt": "Name one benefit of unit tests.",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I do not have am Tiny a fixed vocabulary,\"arguments\":\"project_s\":\",\"impor\":\"user_timezone\":\",\"content\":\"The user's timezone is Europe/Berlin.\",\"tags\":\"preference,time\",\"importance\":0.8}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 106,
+      "elapsed_sec": 2.614573033992201
+    },
+    {
+      "id": "direct_04",
+      "category": "no_tool",
+      "prompt": "Say goodbye briefly.",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "{\"name\":\"save_memory\",\"arguments\":{\"expression\":\"timezone\",\"limit\":3}}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 45,
+      "elapsed_sec": 1.11450002399215
+    },
+    {
+      "id": "unavailable_01",
+      "category": "unavailable_tool",
+      "prompt": "Send an email to my manager about the delay.",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "{\"name\":\"save_memory\",\"arguments\":{\"query\":\"user_name\",\"limit\":\"The\",\"content\":\"The user's project is called Atlas.\",\"tags\":\"project\",\"importance\":0.7}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 94,
+      "elapsed_sec": 3.153666472004261
+    },
+    {
+      "id": "multi_01",
+      "category": "multi_tool",
+      "prompt": "Look up BM25 in the library and also compute 12 times 12.",
+      "expected": [
+        "local_search",
+        "calculator"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "{\"name\":\"calculator\",\"arguments\":{\"expression\":\"17* * 3 * (1 - 15/100)\"}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 54,
+      "elapsed_sec": 1.325597384988214
+    }
+  ],
+  "checkpoint": {
+    "checkpoint": "checkpoints/latest.pt",
+    "step": 350,
+    "parameters": 49035776,
+    "breakdown": {
+      "embedding": 8192000,
+      "blocks": 40843264,
+      "final_norm": 512,
+      "lm_head": 0,
+      "total": 49035776,
+      "non_embedding": 40843776
+    },
+    "vocab_size": 16000,
+    "max_seq_len": 256,
+    "device": "cpu",
+    "tokenizer": "data/tokenizer/tiny50_sp.model"
+  },
+  "data": "datasets/instructions/tool_selection_eval.jsonl",
+  "settings": {
+    "max_iterations": 2,
+    "max_new_tokens": 120,
+    "max_context_tokens": 180,
+    "temperature": 0.0,
+    "decoding": "greedy"
+  },
+  "timestamp": "2026-11-23T03:34:47Z"
+}

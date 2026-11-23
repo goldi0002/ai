@@ -9,19 +9,25 @@
     python -m runtime.cli tools
     python -m runtime.cli benchmark --out storage/benchmark.json
     python -m runtime.cli quantize --bits 8
+    python -m runtime.cli drex --state "..." --questions '{"q": {...}}'
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import sys
+import tempfile
+import time
 from pathlib import Path
 from typing import Any, Dict, Iterable, Optional
 
 from memory.store import MemoryStore
 from model.config import TinyLMConfig
 from training.common import load_yaml, section
+from tools.drex import DEFAULT_MODEL as DREX_DEFAULT_MODEL
+from tools.drex import DEFAULT_THRESHOLD as DREX_DEFAULT_THRESHOLD
 from tools.research import ResearchEngine
 
 CONFIG_PATH = Path("configs/tiny50.yaml")
@@ -280,6 +286,64 @@ def cmd_benchmark(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_eval_tools(args: argparse.Namespace) -> int:
+    """Score tool selection on the labelled held-out prompts."""
+    settings = _settings()
+    checkpoint = args.checkpoint or settings["checkpoint"]
+    if _require_checkpoint(checkpoint) is None:
+        return 1
+    from agent.agent import Agent, AgentConfig
+    from agent.factory import build_registry
+    from evaluation.tool_selection import evaluate_tool_selection, format_summary, load_cases
+    from runtime.inference import load_model
+
+    cases = load_cases(args.data)
+    loaded = load_model(checkpoint, args.tokenizer or settings["tokenizer"], device=args.device)
+
+    # Run against a throwaway copy of the database: real research index, but
+    # memory writes from evaluation prompts cannot pollute the user's notes.
+    with tempfile.TemporaryDirectory(prefix="tinylm-eval-") as directory:
+        db_path = Path(directory) / "eval.db"
+        source_db = Path(settings.get("db_path", "storage/tinylm.db"))
+        if source_db.exists():
+            shutil.copy2(source_db, db_path)
+        registry, _engine, memory = build_registry(
+            db_path=db_path,
+            document_root=settings.get("document_root", "datasets/documents"),
+        )
+        agent = Agent(
+            loaded.model,
+            loaded.tokenizer,
+            registry,
+            memory=memory,
+            config=AgentConfig(
+                max_iterations=args.max_iterations,
+                max_new_tokens=args.max_new_tokens,
+                temperature=args.temperature,
+                top_p=0.9,
+                max_context_tokens=args.max_context_tokens,
+            ),
+        )
+        report = evaluate_tool_selection(agent, cases, verbose=args.verbose)
+
+    report["checkpoint"] = loaded.info()
+    report["data"] = str(args.data)
+    report["settings"] = {
+        "max_iterations": args.max_iterations,
+        "max_new_tokens": args.max_new_tokens,
+        "max_context_tokens": args.max_context_tokens,
+        "temperature": args.temperature,
+        "decoding": "greedy" if args.temperature <= 0 else "sampled",
+    }
+    report["timestamp"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    output = Path(args.out)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    print(format_summary(report))
+    print(f"\nreport: {output}")
+    return 0
+
+
 def cmd_quantize(args: argparse.Namespace) -> int:
     settings = _settings()
     checkpoint = args.checkpoint or settings["checkpoint"]
@@ -327,6 +391,51 @@ def cmd_quantize(args: argparse.Namespace) -> int:
     report_path = saved.with_suffix(".json")
     report_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(json.dumps(payload, indent=2))
+    return 0
+
+
+def cmd_drex(args: argparse.Namespace) -> int:
+    from tools.drex import DrexError, decide
+
+    try:
+        questions = json.loads(args.questions)
+    except json.JSONDecodeError as exc:
+        print(f"error: --questions is not JSON: {exc.msg}", file=sys.stderr)
+        return 1
+    try:
+        result = decide(
+            args.state,
+            questions,
+            model=args.model,
+            threshold=args.threshold,
+        )
+    except DrexError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+    if args.json:
+        print(json.dumps(result, indent=2))
+        return 0
+    usage = result["usage"]
+    print(
+        f"model {result['model']}  request {result['request_id']}  "
+        f"tokens {usage['input_tokens']}+{usage['output_tokens']}"
+    )
+    for name, answer in result["answers"].items():
+        if answer["type"] == "noul":
+            print(
+                f"{name}: noul {answer['probability']:.4f} -> {answer['decision']}"
+                + ("  (needs review)" if answer["needs_review"] else "")
+            )
+        elif answer["type"] == "choice":
+            routing = answer["routing"]
+            print(
+                f"{name}: choice {answer['choice']} {routing['probability']:.4f} "
+                f"-> {routing['action']} ({routing['option']})"
+            )
+        elif answer["type"] == "score":
+            print(f"{name}: score {answer['score']:.2f} (0-{len(answer['legend']) - 1})")
+        else:
+            print(f"{name}: {answer['type']}")
     return 0
 
 
@@ -399,6 +508,21 @@ def build_parser() -> argparse.ArgumentParser:
     bench.add_argument("--out", default="storage/benchmark.json")
     bench.set_defaults(func=cmd_benchmark)
 
+    evaltools = sub.add_parser(
+        "eval-tools", help="measure tool selection on labelled held-out prompts"
+    )
+    evaltools.add_argument("--checkpoint")
+    evaltools.add_argument("--tokenizer")
+    evaltools.add_argument("--data", default="datasets/instructions/tool_selection_eval.jsonl")
+    evaltools.add_argument("--out", default="storage/tool_selection_eval.json")
+    evaltools.add_argument("--max-new-tokens", type=int, default=120)
+    evaltools.add_argument("--max-iterations", type=int, default=2)
+    evaltools.add_argument("--max-context-tokens", type=int, default=180)
+    evaltools.add_argument("--temperature", type=float, default=0.0)
+    evaltools.add_argument("--device", default="auto")
+    evaltools.add_argument("--verbose", action="store_true")
+    evaltools.set_defaults(func=cmd_eval_tools)
+
     quant = sub.add_parser("quantize", help="quantise weights to INT8 or INT4")
     quant.add_argument("--bits", type=int, choices=[4, 8], default=8)
     quant.add_argument("--checkpoint")
@@ -407,6 +531,23 @@ def build_parser() -> argparse.ArgumentParser:
     quant.add_argument("--eval-batches", type=int, default=5)
     quant.add_argument("--out", default=None)
     quant.set_defaults(func=cmd_quantize)
+
+    drex = sub.add_parser("drex", help="ask Nace Drex typed questions about a case state")
+    drex.add_argument("--state", required=True, help="case state: text or a JSON object/array")
+    drex.add_argument(
+        "--questions",
+        required=True,
+        help='JSON object of typed questions, e.g. {"team": {"type": "choice", "instructions": "...", "criteria": {"payments": "Payouts"}}}',
+    )
+    drex.add_argument("--model", default=DREX_DEFAULT_MODEL, help="Drex model id")
+    drex.add_argument(
+        "--threshold",
+        type=float,
+        default=DREX_DEFAULT_THRESHOLD,
+        help="minimum top-option probability to act instead of review",
+    )
+    drex.add_argument("--json", action="store_true")
+    drex.set_defaults(func=cmd_drex)
     return parser
 
 
