@@ -1,0 +1,2 @@
+{"run": "sft_v7", "step": 100, "max_steps": 2000, "lr": 0.00019959785705746653, "train_loss": 3.882220474225085, "grad_norm": 3.086467263698578, "tokens_seen": 26059, "tokens_per_sec": 231.95513517779366, "elapsed_sec": 112.3450014591217, "eta": "35m34s"}
+{"run": "sft_v7", "step": 200, "max_steps": 2000, "lr": 0.00019709301722767604, "train_loss": 1.2886824302325466, "grad_norm": 1.7265907126665114, "tokens_seen": 52363, "tokens_per_sec": 258.2719344372339, "elapsed_sec": 214.19114303588867, "eta": "32m07s"}
