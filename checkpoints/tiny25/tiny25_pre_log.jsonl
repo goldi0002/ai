@@ -2,3 +2,4 @@
 {"run": "tiny25_pre", "step": 100, "max_steps": 400, "lr": 0.0008855389741974245, "train_loss": 1.7381242275238038, "grad_norm": 0.9572224283218383, "tokens_seen": 102000, "tokens_per_sec": 1350.4513801558617, "elapsed_sec": 77.03911590576172, "eta": "3m51s"}
 {"run": "tiny25_pre", "step": 150, "max_steps": 400, "lr": 0.0007419921749195626, "train_loss": 1.1405981838703156, "grad_norm": 0.7148567116260529, "tokens_seen": 153000, "tokens_per_sec": 1278.3126133981432, "elapsed_sec": 116.9354600906372, "eta": "3m14s"}
 {"run": "tiny25_pre", "step": 200, "max_steps": 400, "lr": 0.0005680272753512917, "train_loss": 0.9518486177921295, "grad_norm": 0.6364854025840759, "tokens_seen": 204000, "tokens_per_sec": 1203.6292824017714, "elapsed_sec": 159.30731058120728, "eta": "2m39s"}
+{"run": "tiny25_pre", "step": 200, "eval": {"loss": 8.19860045115153, "perplexity": 3635.8581836914555, "batches": 3}}
