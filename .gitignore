@@ -25,3 +25,6 @@ storage/documents/
 # Quantized weights
 *.int8.pt
 *.int4.pt
+
+# Local SSH deploy key (never commit)
+.ssh/
