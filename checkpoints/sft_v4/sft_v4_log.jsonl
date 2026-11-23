@@ -10,3 +10,4 @@
 {"run": "sft_v4", "step": 900, "max_steps": 3000, "lr": 4.1547309947771374e-05, "train_loss": 0.936445020422961, "grad_norm": 2.1226487123966216, "tokens_seen": 477736, "tokens_per_sec": 289.041858192308, "elapsed_sec": 1609.3907561302185, "eta": "1h02m"}
 {"run": "sft_v4", "step": 1000, "max_steps": 3000, "lr": 3.9592620578168744e-05, "train_loss": 0.838371989577511, "grad_norm": 2.1369962799549103, "tokens_seen": 530433, "tokens_per_sec": 280.43623818324517, "elapsed_sec": 1797.3015637397766, "eta": "59m54s"}
 {"run": "sft_v4", "step": 1000, "eval": {"loss": 0.892527196383911, "perplexity": 2.4412914849413374, "batches": 20}}
+{"run": "sft_v4", "step": 1100, "max_steps": 3000, "lr": 3.7499984219321055e-05, "train_loss": 0.7866876903560925, "grad_norm": 2.1089303946495055, "tokens_seen": 583836, "tokens_per_sec": 284.1804298067365, "elapsed_sec": 1985.2209079265594, "eta": "57m09s"}
