@@ -45,6 +45,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--precision", default=None)
     parser.add_argument("--valid-ratio", type=float, default=0.1)
     parser.add_argument("--seed", type=int, default=1337)
+    parser.add_argument("--checkpoint-every", type=int, default=None)
     parser.add_argument("--fresh-calc", type=float, default=0.0, help="fraction of each batch drawn from a stream of freshly generated calculator conversations")
     return parser
 
@@ -61,6 +62,7 @@ def main(argv: Iterable[str] | None = None) -> int:
         ("learning_rate", args.lr),
         ("eval_every", args.eval_every),
         ("log_every", args.log_every),
+        ("checkpoint_every", args.checkpoint_every),
         ("precision", args.precision),
     ):
         if value is not None:
