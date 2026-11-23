@@ -15,7 +15,7 @@ from evaluation.tool_selection import (
 )
 
 CASES = Path("datasets/instructions/tool_selection_eval.jsonl")
-SFT = Path("datasets/instructions/tiny50_sft.jsonl")
+SFT_FILES = sorted(Path("datasets/instructions").glob("tiny50_sft*.jsonl"))
 
 
 def _normalise(text: str) -> str:
@@ -57,14 +57,16 @@ def test_cases_load_and_are_unique():
 
 
 def test_eval_prompts_are_held_out_from_sft():
+    assert SFT_FILES, "no SFT files found"
     sft_prompts = set()
-    for line in SFT.read_text(encoding="utf-8").splitlines():
-        if not line.strip():
-            continue
-        sample = json.loads(line)
-        for message in sample["messages"]:
-            if message["role"] == "user":
-                sft_prompts.add(_normalise(message["content"]))
+    for sft_file in SFT_FILES:
+        for line in sft_file.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            sample = json.loads(line)
+            for message in sample["messages"]:
+                if message["role"] == "user":
+                    sft_prompts.add(_normalise(message["content"]))
     for case in load_cases(CASES):
         normalised = _normalise(case.prompt)
         assert normalised not in sft_prompts, f"evaluation prompt leaked into SFT: {case.prompt!r}"
@@ -177,3 +179,47 @@ def test_summary_and_format_are_consistent():
     assert summary["first_tool_accuracy"] == 1.0
     text = format_summary({"summary": summary})
     assert "first-tool accuracy" in text
+
+
+def _calc_response(content, ok=True, expression=""):
+    return AgentResponse(
+        text="done",
+        iterations=1,
+        tool_calls=[{"name": "calculator", "arguments": {"expression": expression}, "ok": ok, "content": content, "error": None if ok else "division by zero"}],
+        errors=[],
+    )
+
+
+def test_argument_accuracy_requires_the_right_value():
+    from evaluation.tool_selection import _score_case
+
+    case = EvalCase(id="c", prompt="p", expected_tools=["calculator"], category="calculator", expected_result="47.5")
+    assert _score_case(case, _calc_response("250 * 19 / 100 = 47.5")).argument_ok is True
+    assert _score_case(case, _calc_response("17*23+4 = 395")).argument_ok is False
+    assert _score_case(case, _response([])).argument_ok is False
+
+
+def test_argument_accuracy_error_case_and_unscored_case():
+    from evaluation.tool_selection import _score_case
+
+    err = EvalCase(
+        id="e", prompt="p", expected_tools=["calculator"], expected_result="error", expected_expression="5/0"
+    )
+    right = _calc_response("Error: division by zero", ok=False, expression="5 / 0")
+    wrong = _calc_response("Error: division by zero", ok=False, expression="200 / 0")
+    assert _score_case(err, right).argument_ok is True
+    assert _score_case(err, wrong).argument_ok is False  # errors, but not the asked expression
+    assert _score_case(err, _calc_response("5 / 1 = 5", expression="5 / 1")).argument_ok is False
+    plain = EvalCase(id="n", prompt="p", expected_tools=[])
+    assert _score_case(plain, _response([])).argument_ok is None
+
+
+def test_summary_reports_argument_accuracy_over_scored_cases_only():
+    from evaluation.tool_selection import _score_case
+
+    scored = EvalCase(id="a", prompt="p", expected_tools=["calculator"], expected_result="4")
+    other = EvalCase(id="b", prompt="p", expected_tools=[])
+    results = [_score_case(scored, _calc_response("2 + 2 = 4")), _score_case(other, _response([]))]
+    summary = summarise(results)
+    assert summary["argument_cases"] == 1
+    assert summary["argument_accuracy"] == 1.0

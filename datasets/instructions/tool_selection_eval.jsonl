@@ -1,9 +1,9 @@
-{"id":"calc_01","category":"calculator","prompt":"Compute 48 divided by 6, then add 11.","expected_tools":["calculator"],"notes":"Arithmetic that must use the tool."}
-{"id":"calc_02","category":"calculator","prompt":"What is 19 percent of 250?","expected_tools":["calculator"],"notes":"Percentage arithmetic."}
-{"id":"calc_03","category":"calculator","prompt":"How many seconds are in 3.5 hours?","expected_tools":["calculator"],"notes":"Unit conversion by multiplication."}
-{"id":"calc_04","category":"calculator","prompt":"What is 2 to the power of 12?","expected_tools":["calculator"],"notes":"Exponentiation."}
-{"id":"calc_05","category":"calculator","prompt":"Add 137 and 468.","expected_tools":["calculator"],"notes":"Simple addition, still requires exactness."}
-{"id":"calc_06","category":"calculator","prompt":"What is 5 divided by 0?","expected_tools":["calculator"],"notes":"Tool must report the undefined result rather than invent one."}
+{"id":"calc_01","category":"calculator","prompt":"Compute 48 divided by 6, then add 11.","expected_tools":["calculator"],"notes":"Arithmetic that must use the tool.","expected_result":"19"}
+{"id":"calc_02","category":"calculator","prompt":"What is 19 percent of 250?","expected_tools":["calculator"],"notes":"Percentage arithmetic.","expected_result":"47.5"}
+{"id":"calc_03","category":"calculator","prompt":"How many seconds are in 3.5 hours?","expected_tools":["calculator"],"notes":"Unit conversion by multiplication.","expected_result":"12600"}
+{"id":"calc_04","category":"calculator","prompt":"What is 2 to the power of 12?","expected_tools":["calculator"],"notes":"Exponentiation.","expected_result":"4096"}
+{"id":"calc_05","category":"calculator","prompt":"Add 137 and 468.","expected_tools":["calculator"],"notes":"Simple addition, still requires exactness.","expected_result":"605"}
+{"id":"calc_06","category":"calculator","prompt":"What is 5 divided by 0?","expected_tools":["calculator"],"notes":"Tool must report the undefined result rather than invent one.","expected_result":"error","expected_expression":"5/0"}
 {"id":"search_01","category":"local_search","prompt":"What does the local library say about document length normalisation?","expected_tools":["local_search"],"notes":"Factual question answerable from the index."}
 {"id":"search_02","category":"local_search","prompt":"Find passages about KV caches.","expected_tools":["local_search"],"notes":"Explicit search request."}
 {"id":"search_03","category":"local_search","prompt":"Why does the memory document say notes can become stale?","expected_tools":["local_search"],"notes":"Needs the memory_systems document."}
@@ -22,4 +22,4 @@
 {"id":"direct_03","category":"no_tool","prompt":"Name one benefit of unit tests.","expected_tools":[],"notes":"Short opinion, no tool."}
 {"id":"direct_04","category":"no_tool","prompt":"Say goodbye briefly.","expected_tools":[],"notes":"Conversational close."}
 {"id":"unavailable_01","category":"unavailable_tool","prompt":"Send an email to my manager about the delay.","expected_tools":[],"notes":"No email tool exists; must not pretend to call one."}
-{"id":"multi_01","category":"multi_tool","prompt":"Look up BM25 in the library and also compute 12 times 12.","expected_tools":["local_search","calculator"],"notes":"Two independent tools requested in one turn."}
+{"id":"multi_01","category":"multi_tool","prompt":"Look up BM25 in the library and also compute 12 times 12.","expected_tools":["local_search","calculator"],"notes":"Two independent tools requested in one turn.","expected_result":"144"}

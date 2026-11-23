@@ -7,6 +7,7 @@ __pycache__/
 
 # Generated artifacts (rebuildable)
 checkpoints/*.pt
+checkpoints/**/*.pt
 checkpoints/*.json
 data/tokenizer/*.model
 data/tokenizer/*.vocab

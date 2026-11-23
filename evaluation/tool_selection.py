@@ -9,7 +9,11 @@ actually made (including failed and malformed ones), and reports:
 * **exact-set accuracy** — the set of called tools equals the expected set;
 * **invalid-call rate** — cases with a failed call, unknown tool or parse error;
 * **no-tool false positives** — direct-answer prompts that called a tool;
-* **missed-tool rate** — prompts that needed a tool but produced none.
+* **missed-tool rate** — prompts that needed a tool but produced none;
+* **argument accuracy** — for cases that give an ``expected_result`` (calculator
+  prompts), whether some calculator call produced that value (or, for the value
+  ``"error"``, failed on the ``expected_expression``). Selecting the right tool with a memorised or wrong
+  argument does not count.
 
 Prompts in ``tool_selection_eval.jsonl`` are deliberately disjoint from the SFT
 file; ``tests/test_tool_selection.py`` enforces that.
@@ -21,7 +25,7 @@ import json
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Sequence
+from typing import Any, Dict, Iterable, List, Optional, Sequence
 
 DEFAULT_CASES = "datasets/instructions/tool_selection_eval.jsonl"
 VALID_TOOLS = {
@@ -41,6 +45,8 @@ class EvalCase:
     expected_tools: List[str]
     category: str = "uncategorised"
     notes: str = ""
+    expected_result: Optional[str] = None
+    expected_expression: Optional[str] = None
 
 
 @dataclass
@@ -61,6 +67,7 @@ class CaseResult:
     iterations: int
     tokens_generated: int
     elapsed_sec: float = 0.0
+    argument_ok: Optional[bool] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -92,11 +99,45 @@ def load_cases(path: str | Path = DEFAULT_CASES) -> List[EvalCase]:
                 expected_tools=expected,
                 category=record.get("category", "uncategorised"),
                 notes=record.get("notes", ""),
+                expected_result=(
+                    str(record["expected_result"]) if record.get("expected_result") is not None else None
+                ),
+                expected_expression=record.get("expected_expression"),
             )
         )
     if not cases:
         raise ValueError(f"{path}: no evaluation cases")
     return cases
+
+
+def _numbers_equal(text: str, expected: str) -> bool:
+    try:
+        return abs(float(text.strip()) - float(expected)) <= 1e-6 * max(1.0, abs(float(expected)))
+    except ValueError:
+        return False
+
+
+def _argument_ok(case: "EvalCase", tool_calls: Sequence[Dict[str, Any]]) -> Optional[bool]:
+    """Did a calculator call produce the expected value? None when not scored."""
+    if case.expected_result is None:
+        return None
+    for call in tool_calls:
+        if call.get("name") != "calculator":
+            continue
+        if case.expected_result == "error":
+            # A failing call only counts if it is the *right* failing call, e.g.
+            # "5 / 0" for "5 divided by 0"; any expression that errors would
+            # otherwise pass.
+            expression = str(call.get("arguments", {}).get("expression", "")).replace(" ", "")
+            wanted = (case.expected_expression or "").replace(" ", "")
+            if not call.get("ok", False) and (not wanted or expression == wanted):
+                return True
+            continue
+        content = str(call.get("content", ""))
+        if call.get("ok", False) and " = " in content:
+            if _numbers_equal(content.rsplit(" = ", 1)[1], case.expected_result):
+                return True
+    return False
 
 
 def _score_case(case: EvalCase, response: Any) -> CaseResult:
@@ -137,6 +178,7 @@ def _score_case(case: EvalCase, response: Any) -> CaseResult:
         errors=list(getattr(response, "errors", []) or []),
         iterations=int(getattr(response, "iterations", 0)),
         tokens_generated=int(getattr(response, "tokens_generated", 0)),
+        argument_ok=_argument_ok(case, tool_calls),
     )
 
 
@@ -151,6 +193,7 @@ def summarise(results: Sequence[CaseResult]) -> Dict[str, Any]:
     invalid = sum(result.invalid_call for result in results)
     missed = sum(result.missed_tool for result in results)
     false_positive = sum(result.false_positive for result in results)
+    scored_args = [result for result in results if result.argument_ok is not None]
     needed = sum(1 for result in results if result.expected)
     direct = sum(1 for result in results if not result.expected)
     per_category: Dict[str, Dict[str, Any]] = {}
@@ -172,6 +215,8 @@ def summarise(results: Sequence[CaseResult]) -> Dict[str, Any]:
         "exact_set_accuracy": _ratio(exact, total),
         "invalid_call_rate": _ratio(invalid, total),
         "missing_tool_rate": _ratio(missed, needed),
+        "argument_accuracy": _ratio(sum(bool(r.argument_ok) for r in scored_args), len(scored_args)),
+        "argument_cases": len(scored_args),
         "no_tool_false_positive_rate": _ratio(false_positive, direct),
         "tool_use_cases": needed,
         "direct_cases": direct,
@@ -241,6 +286,8 @@ def format_summary(report: Dict[str, Any]) -> str:
         f"exact-set accuracy:   {summary['exact_set_accuracy']:.1%}",
         f"invalid-call rate:    {summary['invalid_call_rate']:.1%}",
         f"missing-tool rate:    {summary['missing_tool_rate']:.1%}",
+        f"argument accuracy:   {summary.get('argument_accuracy', 0.0):.1%} "
+        f"({summary.get('argument_cases', 0)} scored cases)",
         f"no-tool false pos.:   {summary['no_tool_false_positive_rate']:.1%}",
         f"parse errors:         {summary.get('cases_with_parse_errors', 0)} case(s)",
         f"wall clock:           {summary.get('wall_clock_sec', 0.0):.1f}s",

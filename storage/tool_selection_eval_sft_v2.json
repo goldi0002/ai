@@ -1,0 +1,900 @@
+{
+  "summary": {
+    "cases": 25,
+    "first_tool_accuracy": 0.6,
+    "exact_set_accuracy": 0.6,
+    "invalid_call_rate": 0.04,
+    "missing_tool_rate": 0.0,
+    "argument_accuracy": 0.0,
+    "argument_cases": 7,
+    "no_tool_false_positive_rate": 0.6,
+    "tool_use_cases": 20,
+    "direct_cases": 5,
+    "per_category": {
+      "calculator": {
+        "cases": 6,
+        "first_tool_ok": 6,
+        "exact_set_ok": 6,
+        "invalid": 0,
+        "first_tool_accuracy": 1.0,
+        "exact_set_accuracy": 1.0,
+        "invalid_rate": 0.0
+      },
+      "list_files": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "local_search": {
+        "cases": 5,
+        "first_tool_ok": 4,
+        "exact_set_ok": 4,
+        "invalid": 0,
+        "first_tool_accuracy": 0.8,
+        "exact_set_accuracy": 0.8,
+        "invalid_rate": 0.0
+      },
+      "multi_tool": {
+        "cases": 1,
+        "first_tool_ok": 1,
+        "exact_set_ok": 1,
+        "invalid": 0,
+        "first_tool_accuracy": 1.0,
+        "exact_set_accuracy": 1.0,
+        "invalid_rate": 0.0
+      },
+      "no_tool": {
+        "cases": 4,
+        "first_tool_ok": 2,
+        "exact_set_ok": 2,
+        "invalid": 0,
+        "first_tool_accuracy": 0.5,
+        "exact_set_accuracy": 0.5,
+        "invalid_rate": 0.0
+      },
+      "read_document": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 1,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.5
+      },
+      "retrieve_memory": {
+        "cases": 2,
+        "first_tool_ok": 1,
+        "exact_set_ok": 1,
+        "invalid": 0,
+        "first_tool_accuracy": 0.5,
+        "exact_set_accuracy": 0.5,
+        "invalid_rate": 0.0
+      },
+      "save_memory": {
+        "cases": 2,
+        "first_tool_ok": 1,
+        "exact_set_ok": 1,
+        "invalid": 0,
+        "first_tool_accuracy": 0.5,
+        "exact_set_accuracy": 0.5,
+        "invalid_rate": 0.0
+      },
+      "unavailable_tool": {
+        "cases": 1,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      }
+    },
+    "wall_clock_sec": 28.76235192399963,
+    "cases_with_parse_errors": 0
+  },
+  "results": [
+    {
+      "id": "calc_01",
+      "category": "calculator",
+      "prompt": "Compute 48 divided by 6, then add 11.",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "276 / 3"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The result is 12.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 52,
+      "elapsed_sec": 0.7288106860005428,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_02",
+      "category": "calculator",
+      "prompt": "What is 19 percent of 250?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "380 * 12"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The total is 1250.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 56,
+      "elapsed_sec": 0.8503941859999031,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_03",
+      "category": "calculator",
+      "prompt": "How many seconds are in 3.5 hours?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "12 * 12"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The total cost is 666.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 55,
+      "elapsed_sec": 0.8890703709994341,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_04",
+      "category": "calculator",
+      "prompt": "What is 2 to the power of 12?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "18 * 3"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The total cost is 126.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 54,
+      "elapsed_sec": 0.9128833859995211,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_05",
+      "category": "calculator",
+      "prompt": "Add 137 and 468.",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "29 * 33"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The product is 333.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 56,
+      "elapsed_sec": 0.7977763059998324,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_06",
+      "category": "calculator",
+      "prompt": "What is 5 divided by 0?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "120 * (1 + 10/100)"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The total is 100.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 65,
+      "elapsed_sec": 0.8445144629995411,
+      "argument_ok": false
+    },
+    {
+      "id": "search_01",
+      "category": "local_search",
+      "prompt": "What does the local library say about document length normalisation?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory unique key",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find a calculatorry, so I willines\":{\"query\":\"meeting day\",\"limit\":3}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 95,
+      "elapsed_sec": 1.1328200390007623,
+      "argument_ok": null
+    },
+    {
+      "id": "search_02",
+      "category": "local_search",
+      "prompt": "Find passages about KV caches.",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "tied embeddings",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The\":\":\"calculator\",\"arguments\":{\"expression\":\"18 * 12\"}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 86,
+      "elapsed_sec": 1.2848875050003699,
+      "argument_ok": null
+    },
+    {
+      "id": "search_03",
+      "category": "local_search",
+      "prompt": "Why does the memory document say notes can become stale?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory unique key",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find a calculatorry, so I willines\":{\"query\":\"meeting day\",\"limit\":3}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 95,
+      "elapsed_sec": 1.4598585570001887,
+      "argument_ok": null
+    },
+    {
+      "id": "search_04",
+      "category": "local_search",
+      "prompt": "Search the library for guidance on chunk overlap.",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "retrieve_memory"
+      ],
+      "calls": [
+        {
+          "name": "retrieve_memory",
+          "arguments": {
+            "query": "package manager",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find a project name in memory, so I do not know it yet.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 77,
+      "elapsed_sec": 1.2033820569995441,
+      "argument_ok": null
+    },
+    {
+      "id": "search_05",
+      "category": "local_search",
+      "prompt": "What does the tool protocol say about duplicate calls?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory unique key",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find a calculatorry, so I willines\":{\"query\":\"meeting day\",\"limit\":3}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 95,
+      "elapsed_sec": 1.2877890889994887,
+      "argument_ok": null
+    },
+    {
+      "id": "read_01",
+      "category": "read_document",
+      "prompt": "Open memory_systems.md and summarise what the schema stores.",
+      "expected": [
+        "read_document"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "quantum gravity lattice",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The local library has no passage about zorblax dosage, so I cannot answer from it.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 83,
+      "elapsed_sec": 1.0921913150004912,
+      "argument_ok": null
+    },
+    {
+      "id": "read_02",
+      "category": "read_document",
+      "prompt": "Show me the beginning of quantization.md.",
+      "expected": [
+        "read_document"
+      ],
+      "called": [
+        "read_search"
+      ],
+      "calls": [
+        {
+          "name": "read_search",
+          "arguments": {
+            "query": "memory unique key",
+            "limit": 1
+          },
+          "ok": false
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": true,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find a calendar.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 62,
+      "elapsed_sec": 0.8135762840001917,
+      "argument_ok": null
+    },
+    {
+      "id": "list_01",
+      "category": "list_files",
+      "prompt": "List the PDF files in the library.",
+      "expected": [
+        "list_files"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory unique key",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find a calculatorry, so I willines\":{\"query\":\"meeting day\",\"limit\":3}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 95,
+      "elapsed_sec": 1.3799909729996216,
+      "argument_ok": null
+    },
+    {
+      "id": "list_02",
+      "category": "list_files",
+      "prompt": "Which Markdown documents are available?",
+      "expected": [
+        "list_files"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "tied embeddings",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find a calculatorry,\"arguments\":{\"expression\":\"49 * 12\"}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 87,
+      "elapsed_sec": 1.1861683790002644,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_get_01",
+      "category": "retrieve_memory",
+      "prompt": "What did I ask you to remember about my editor?",
+      "expected": [
+        "retrieve_memory"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "pre-norm",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find a calculator,timezones are city is nope/1.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 75,
+      "elapsed_sec": 1.0896792220000862,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_get_02",
+      "category": "retrieve_memory",
+      "prompt": "Recall my saved project name.",
+      "expected": [
+        "retrieve_memory"
+      ],
+      "called": [
+        "retrieve_memory"
+      ],
+      "calls": [
+        {
+          "name": "retrieve_memory",
+          "arguments": {
+            "query": "team name",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find a project name in memory, so I do not know it yet.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 76,
+      "elapsed_sec": 1.0485275009996258,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_save_01",
+      "category": "save_memory",
+      "prompt": "Please remember that I prefer metric units.",
+      "expected": [
+        "save_memory"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "pre-norm",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find a calculator,timezones are city is nope/1.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 75,
+      "elapsed_sec": 1.0142189810003401,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_save_02",
+      "category": "save_memory",
+      "prompt": "Save a note that my deploy target is staging.",
+      "expected": [
+        "save_memory"
+      ],
+      "called": [
+        "save_memory"
+      ],
+      "calls": [
+        {
+          "name": "save_memory",
+          "arguments": {
+            "key": "user_city",
+            "content": "The user's favourite language is Mar.",
+            "tags": "preference,tools",
+            "importance": 0.6
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not have.md\",\"max_charsearch\", retrieve_memory\",\"importance\":\"max_manager's name is March colour.\",\"tags\":\"project,time\",\"importance\":0.8}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 173,
+      "elapsed_sec": 2.6979582129997652,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_01",
+      "category": "no_tool",
+      "prompt": "Write a one-line greeting.",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I do not have a calendar tool, so I cannot manage a calendar. My available tools are calculator, local_search, read_document, list_files, retrieve_memory and save_memory.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 74,
+      "elapsed_sec": 1.0782930820005276,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_02",
+      "category": "no_tool",
+      "prompt": "In one sentence, what is a cache?",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "A bug is a collection where the a model's predictions are, and training use make make it is the first it.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 32,
+      "elapsed_sec": 0.5362083910004003,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_03",
+      "category": "no_tool",
+      "prompt": "Name one benefit of unit tests.",
+      "expected": [],
+      "called": [
+        "list_files"
+      ],
+      "calls": [
+        {
+          "name": "list_files",
+          "arguments": {
+            "pattern": "*.txt",
+            "max_results": 10
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": true,
+      "text": "The library has no files matching *.pdf.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 72,
+      "elapsed_sec": 1.2700715049995779,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_04",
+      "category": "no_tool",
+      "prompt": "Say goodbye briefly.",
+      "expected": [],
+      "called": [
+        "list_files"
+      ],
+      "calls": [
+        {
+          "name": "list_files",
+          "arguments": {
+            "pattern": "*.txt",
+            "max_results": 10
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": true,
+      "text": "The library has no files matching *.pdf.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 72,
+      "elapsed_sec": 1.3484462710002845,
+      "argument_ok": null
+    },
+    {
+      "id": "unavailable_01",
+      "category": "unavailable_tool",
+      "prompt": "Send an email to my manager about the delay.",
+      "expected": [],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory unique key",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": true,
+      "text": "I could not find a calculatorry, so I willines\":{\"query\":\"meeting day\",\"limit\":3}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 95,
+      "elapsed_sec": 1.4014572520000002,
+      "argument_ok": null
+    },
+    {
+      "id": "multi_01",
+      "category": "multi_tool",
+      "prompt": "Look up BM25 in the library and also compute 12 times 12.",
+      "expected": [
+        "local_search",
+        "calculator"
+      ],
+      "called": [
+        "local_search",
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "term frequency k1",
+            "limit": 1
+          },
+          "ok": true
+        },
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "18 * 4"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The square root of 3 is 1.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 105,
+      "elapsed_sec": 1.4132256889997734,
+      "argument_ok": false
+    }
+  ],
+  "checkpoint": {
+    "checkpoint": "checkpoints/sft_v2/latest.pt",
+    "step": 1100,
+    "parameters": 49035776,
+    "breakdown": {
+      "embedding": 8192000,
+      "blocks": 40843264,
+      "final_norm": 512,
+      "lm_head": 0,
+      "total": 49035776,
+      "non_embedding": 40843776
+    },
+    "vocab_size": 16000,
+    "max_seq_len": 256,
+    "device": "cpu",
+    "tokenizer": "data/tokenizer/tiny50_sp.model"
+  },
+  "data": "datasets/instructions/tool_selection_eval.jsonl",
+  "settings": {
+    "max_iterations": 2,
+    "max_new_tokens": 120,
+    "max_context_tokens": 180,
+    "temperature": 0.0,
+    "decoding": "greedy"
+  },
+  "timestamp": "2026-11-23T05:32:08Z"
+}

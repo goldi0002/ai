@@ -26,6 +26,9 @@ not a useful assistant.
   (16,000). The SFT checkpoint memorised its 18 examples and lost general
   modelling ability. The agent demo below shows exactly that: tool plumbing
   works, language quality does not.
+- A larger generated tool-use SFT set raises held-out tool selection from 24% to
+  60% and removes missing/invalid calls, but calculator arguments are still
+  wrong (0/7); see [Tool-use SFT v2](#tool-use-sft-v2-measured).
 - No benchmark number in this README is copied from another project; each one
   was measured in this workspace and is reproduced by the commands shown.
 
@@ -66,14 +69,14 @@ Measured breakdown from `python -m runtime.cli info`:
 
 ```
 model/          config, embeddings, RoPE, GQA, SwiGLU, RMSNorm, TinyLM, tokenizer
-data/           seed corpus, cleaning, dedup, packing, opt-in downloader, CLI
-training/       shared loop, data sources, pretraining CLI, SFT CLI
+data/           seed corpus, cleaning, dedup, packing, opt-in downloader, SFT generator, CLI
+training/       shared loop, data sources, pretraining CLI, SFT CLI, copy curriculum
 agent/          prompt rendering, tool-call parser, agent loop, factory
 tools/          calculator, files, research search, memory tools, registry
 memory/         SQLite + FTS5 persistent notes
 runtime/        inference loader, INT8/INT4 quantisation, CLI
 evaluation/     perplexity and measured benchmarks
-tests/          61 pytest tests
+tests/          81 pytest tests
 datasets/       documents/ (research library), instructions/ (SFT), sources.yaml
 configs/        tiny50.yaml
 storage/        SQLite database, benchmark output
@@ -378,11 +381,104 @@ supervision with diverse numbers and paths, and (d) longer, cleaner tool-call
 JSON targets. Re-run `eval-tools` after each change and compare against this
 24% baseline.
 
+## Tool-use SFT v2 (measured)
+
+The baseline above fails because 18 hand-written conversations are memorised,
+not generalised. `data/generate_sft.py` builds a larger, varied set:
+
+```bash
+.venv/bin/python -m data.generate_sft            # -> datasets/instructions/tiny50_sft_v2.jsonl
+.venv/bin/python -m training.sft --init checkpoints/pretrain_base.pt \
+  --data datasets/instructions/tiny50_sft_v2.jsonl --out-dir checkpoints/sft_v2 \
+  --max-steps 1100 --batch-size 4 --lr 2e-4 --eval-every 275 --run-name sft_v2
+```
+
+It writes 1,452 conversations (seeded, deterministic): calculator (340 + 30
+divide-by-zero), local search (240 + 40 no-result), read_document (100 + 24
+missing file), list_files, save/retrieve memory, 180 no-tool answers, 90
+unavailable-tool refusals and 90 multi-tool turns, plus the 20 curated ones.
+Wording, numbers, file names and memory slots vary. Every tool result comes
+from the real tool implementations (`ToolResult.to_json()`), so training text
+matches the runtime byte for byte. Prompts that equal, contain or are contained
+in a held-out evaluation prompt are dropped, and the topics used by the
+evaluation's search prompts are excluded from search training;
+`tests/test_tool_selection.py` and `tests/test_generate_sft.py` enforce this.
+
+Real search passages cost ~400 tokens (the tokenizer averages 1.75 characters
+per token on JSON), so only a quarter of search examples keep the answer turn;
+the rest still train the tool call itself.
+
+The evaluation now also scores **argument accuracy** for the 7 calculator
+cases: a call counts only if the calculator actually returned the expected value
+(or failed on the expected expression, for `5 / 0`). Selection alone had
+overstated the baseline.
+
+All rows below use the same 25 held-out prompts, greedy decoding, two
+iterations, and the same pretrained base (240 steps). Reports are in `storage/`.
+
+| Run | Exact-set | Invalid calls | Missing tool | Argument acc. | No-tool false pos. |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Baseline: 18 examples, 350 steps | 24% | 44% | 90% | 0% (0/7) | 0% |
+| SFT v2: 1,452 examples, 1,100 steps | **60%** | **4%** | **0%** | 0% (0/7) | 60% |
+| SFT v2 + copy curriculum (below) | **60%** | 8% | 0% | 0% (0/7) | 60% |
+
+(Baseline: `checkpoints/step_350.pt` re-scored; its calculator "hits" are the
+memorised `17*23+4` described above. Validation perplexity on the generated
+validation split reaches 1.41, which is in-distribution and says little.)
+
+What this shows, and what it does not:
+
+- **Tool selection and call format improved a lot.** The model now emits a
+  well-formed call on every tool-required prompt (missing-tool 90% → 0%, invalid
+  44% → 4%). Calculator and search prompts are routed correctly (6/6 and 4/5).
+- **Arguments are still wrong: 0 of 7.** `48 divided by 6, then add 11` becomes
+  `276 / 3`. On 40 fresh generated calculator prompts (different seed, not in
+  training) the called expression reuses the prompt's numbers 0% of the time
+  (structure and operator are often right: `(5 + 71 + 61) / 3` became
+  `(18 + 33 + 49) / 4`). The model has learned the shape of the call, not to
+  copy from its context.
+- **Over-calling.** It now calls some tool on 3 of 5 no-tool/unavailable prompts
+  and often picks `local_search` for list/read/save requests. It learned "a tool
+  is usually right" more than it learned to read the request.
+
+### Copy curriculum (`training/copy_task.py`)
+
+Hypothesis: copying is an induction-head behaviour that a 61k-token pretrain
+never forms. `training.copy_task` inserts a synthetic stage between pretraining
+and SFT: each example shows a span (random tokens, number lists, short phrases)
+and repeats it, with the loss only on the repeat.
+
+```bash
+.venv/bin/python -m training.copy_task --init checkpoints/pretrain_base.pt --max-steps 600
+.venv/bin/python -m training.copy_task --init checkpoints/copy_stage1.pt --max-steps 900 --lr 8e-4
+```
+
+Measured on fresh examples (token accuracy on the repeated span): numbers
+10% → 53%, phrases 0% → 82%; random 16k-token spans stay near 6%. So the stage
+works on what it targets. After SFT, the full-number copy rate on calculator
+prompts is still 0% and the held-out result is unchanged (table above), with a
+few digits copied (e.g. `4` from "costs 4"). Selecting the right *first* number
+out of a prompt is content-based retrieval, which span repetition does not
+teach, and 1,500 training steps are not enough for it to emerge on its own.
+Treat the copy stage as a validated but insufficient step: it is kept because
+it is cheap, tested and measurable, not because it fixed argument accuracy.
+
+### What would actually move argument accuracy
+
+1. A real pretraining corpus and far more steps. This is the dominant limit; the
+   base model has seen 61k tokens.
+2. Argument-copy data in the pretraining mix itself (prompt numbers → expression)
+   rather than only in SFT, so retrieval of operands is learned before the chat
+   format is.
+3. Constrained decoding for calculator arguments, or having the runtime extract
+   numbers from the prompt, if exact arguments are needed before the model is
+   scaled. That is a different design and was not attempted here.
+
 ## Tests
 
 ```bash
 .venv/bin/python -m pytest -q
-# 68 passed
+# 81 passed
 ```
 
 Covered: parameter count and breakdown, forward/backward, causality, KV-cache

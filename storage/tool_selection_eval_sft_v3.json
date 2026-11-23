@@ -1,0 +1,898 @@
+{
+  "summary": {
+    "cases": 25,
+    "first_tool_accuracy": 0.6,
+    "exact_set_accuracy": 0.6,
+    "invalid_call_rate": 0.08,
+    "missing_tool_rate": 0.0,
+    "argument_accuracy": 0.0,
+    "argument_cases": 7,
+    "no_tool_false_positive_rate": 0.6,
+    "tool_use_cases": 20,
+    "direct_cases": 5,
+    "per_category": {
+      "calculator": {
+        "cases": 6,
+        "first_tool_ok": 6,
+        "exact_set_ok": 6,
+        "invalid": 2,
+        "first_tool_accuracy": 1.0,
+        "exact_set_accuracy": 1.0,
+        "invalid_rate": 0.3333333333333333
+      },
+      "list_files": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "local_search": {
+        "cases": 5,
+        "first_tool_ok": 5,
+        "exact_set_ok": 5,
+        "invalid": 0,
+        "first_tool_accuracy": 1.0,
+        "exact_set_accuracy": 1.0,
+        "invalid_rate": 0.0
+      },
+      "multi_tool": {
+        "cases": 1,
+        "first_tool_ok": 1,
+        "exact_set_ok": 1,
+        "invalid": 0,
+        "first_tool_accuracy": 1.0,
+        "exact_set_accuracy": 1.0,
+        "invalid_rate": 0.0
+      },
+      "no_tool": {
+        "cases": 4,
+        "first_tool_ok": 2,
+        "exact_set_ok": 2,
+        "invalid": 0,
+        "first_tool_accuracy": 0.5,
+        "exact_set_accuracy": 0.5,
+        "invalid_rate": 0.0
+      },
+      "read_document": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "retrieve_memory": {
+        "cases": 2,
+        "first_tool_ok": 1,
+        "exact_set_ok": 1,
+        "invalid": 0,
+        "first_tool_accuracy": 0.5,
+        "exact_set_accuracy": 0.5,
+        "invalid_rate": 0.0
+      },
+      "save_memory": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "unavailable_tool": {
+        "cases": 1,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      }
+    },
+    "wall_clock_sec": 27.81416081900079,
+    "cases_with_parse_errors": 0
+  },
+  "results": [
+    {
+      "id": "calc_01",
+      "category": "calculator",
+      "prompt": "Compute 48 divided by 6, then add 11.",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "(19 + 45 + 45) / 4"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The average is 46.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 63,
+      "elapsed_sec": 0.9432493880003676,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_02",
+      "category": "calculator",
+      "prompt": "What is 19 percent of 250?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "300 / 0"
+          },
+          "ok": false
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": true,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The calculator reports division by zero, so there is no valid answer.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 71,
+      "elapsed_sec": 1.008359725000446,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_03",
+      "category": "calculator",
+      "prompt": "How many seconds are in 3.5 hours?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "28 * 15"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The product is 100.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 56,
+      "elapsed_sec": 0.7659016469997368,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_04",
+      "category": "calculator",
+      "prompt": "What is 2 to the power of 12?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "386 * 15"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The total is 100.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 55,
+      "elapsed_sec": 0.7301549550002164,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_05",
+      "category": "calculator",
+      "prompt": "Add 137 and 468.",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "29 * 414"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The total is 1000.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 56,
+      "elapsed_sec": 0.8250890030003575,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_06",
+      "category": "calculator",
+      "prompt": "What is 5 divided by 0?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "200 / 0"
+          },
+          "ok": false
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": true,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The calculator reports day is undefference, so there is no valid answer.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 71,
+      "elapsed_sec": 0.99260096099988,
+      "argument_ok": false
+    },
+    {
+      "id": "search_01",
+      "category": "local_search",
+      "prompt": "What does the local library say about document length normalisation?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "tied embeddings",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The has name\"name\":\"local_search\",\"arguments\":{\"query\":\"memory\",\"limit\":1}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 94,
+      "elapsed_sec": 1.357132367000304,
+      "argument_ok": null
+    },
+    {
+      "id": "search_02",
+      "category": "local_search",
+      "prompt": "Find passages about KV caches.",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "tied embeddings",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The has name\"name\":\"local_search\",\"arguments\":{\"query\":\"memory\",\"limit\":1}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 94,
+      "elapsed_sec": 1.5546818889997667,
+      "argument_ok": null
+    },
+    {
+      "id": "search_03",
+      "category": "local_search",
+      "prompt": "Why does the memory document say notes can become stale?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "pre-norm",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "Savedickred your preferred 300 day is 1.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 69,
+      "elapsed_sec": 0.9745236799999475,
+      "argument_ok": null
+    },
+    {
+      "id": "search_04",
+      "category": "local_search",
+      "prompt": "Search the library for guidance on chunk overlap.",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "pre-norm",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "Savedickred your preferred 300 day is 1.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 69,
+      "elapsed_sec": 1.0221073590000742,
+      "argument_ok": null
+    },
+    {
+      "id": "search_05",
+      "category": "local_search",
+      "prompt": "What does the tool protocol say about duplicate calls?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "pre-norm",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "Savedickred your preferred 300 day is 1.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 69,
+      "elapsed_sec": 1.191471594000177,
+      "argument_ok": null
+    },
+    {
+      "id": "read_01",
+      "category": "read_document",
+      "prompt": "Open memory_systems.md and summarise what the schema stores.",
+      "expected": [
+        "read_document"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "quantisation inference speed",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The difine is {\"name\":\"local_search\",\"arguments\":{\"query\":\"pre-norm\",\"limit\":1}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 97,
+      "elapsed_sec": 1.2322295459998713,
+      "argument_ok": null
+    },
+    {
+      "id": "read_02",
+      "category": "read_document",
+      "prompt": "Show me the beginning of quantization.md.",
+      "expected": [
+        "read_document"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "tied embeddings",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The has name\"name\":\"local_search\",\"arguments\":{\"query\":\"memory\",\"limit\":1}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 94,
+      "elapsed_sec": 1.1316523960003906,
+      "argument_ok": null
+    },
+    {
+      "id": "list_01",
+      "category": "list_files",
+      "prompt": "List the PDF files in the library.",
+      "expected": [
+        "list_files"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "pre-norm",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "Savedickred your preferred 300 day is 1.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 69,
+      "elapsed_sec": 1.1831089170000268,
+      "argument_ok": null
+    },
+    {
+      "id": "list_02",
+      "category": "list_files",
+      "prompt": "Which Markdown documents are available?",
+      "expected": [
+        "list_files"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "tied embeddings",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The has name\"name\":\"local_search\",\"arguments\":{\"query\":\"memory\",\"limit\":1}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 94,
+      "elapsed_sec": 1.3330921790002321,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_get_01",
+      "category": "retrieve_memory",
+      "prompt": "What did I ask you to remember about my editor?",
+      "expected": [
+        "retrieve_memory"
+      ],
+      "called": [
+        "retrieve_memory"
+      ],
+      "calls": [
+        {
+          "name": "retrieve_memory",
+          "arguments": {
+            "query": "package manager",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "I could not find ag's name colour in the library.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 75,
+      "elapsed_sec": 1.169171360999826,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_get_02",
+      "category": "retrieve_memory",
+      "prompt": "Recall my saved project name.",
+      "expected": [
+        "retrieve_memory"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory unique key",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The project is 4 to the key is 38.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 67,
+      "elapsed_sec": 1.0095618190007372,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_save_01",
+      "category": "save_memory",
+      "prompt": "Please remember that I prefer metric units.",
+      "expected": [
+        "save_memory"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "quantisation inference speed",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The difine is {\"name\":\"local_search\",\"arguments\":{\"query\":\"pre-norm\",\"limit\":1}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 97,
+      "elapsed_sec": 1.3051865059996999,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_save_02",
+      "category": "save_memory",
+      "prompt": "Save a note that my deploy target is staging.",
+      "expected": [
+        "save_memory"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "pre-norm",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "Savedickred your preferred 300 day is 1.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 69,
+      "elapsed_sec": 1.0911964729993997,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_01",
+      "category": "no_tool",
+      "prompt": "Write a one-line greeting.",
+      "expected": [],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "tied embeddings",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": true,
+      "text": "The has name\"name\":\"local_search\",\"arguments\":{\"query\":\"memory\",\"limit\":1}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 94,
+      "elapsed_sec": 1.2436729199998808,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_02",
+      "category": "no_tool",
+      "prompt": "In one sentence, what is a cache?",
+      "expected": [],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "tied embeddings",
+            "limit": 1
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": true,
+      "text": "The has name\"name\":\"local_search\",\"arguments\":{\"query\":\"memory\",\"limit\":1}}",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 94,
+      "elapsed_sec": 1.2600430189995677,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_03",
+      "category": "no_tool",
+      "prompt": "Name one benefit of unit tests.",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "A {\"name\":\"local_search\",\"arguments\":{\"query\":\"tied embeddings\",\"limit\":1}}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 47,
+      "elapsed_sec": 0.6137772169995515,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_04",
+      "category": "no_tool",
+      "prompt": "Say goodbye briefly.",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "A bu is a collection of code of the a model that the first it can be have calculator, local_search, read_document, list_files, retrieve_memory and save_memory.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 62,
+      "elapsed_sec": 0.9740130469999713,
+      "argument_ok": null
+    },
+    {
+      "id": "unavailable_01",
+      "category": "unavailable_tool",
+      "prompt": "Send an email to my manager about the delay.",
+      "expected": [],
+      "called": [
+        "retrieve_memory"
+      ],
+      "calls": [
+        {
+          "name": "retrieve_memory",
+          "arguments": {
+            "query": "team name",
+            "limit": 3
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": true,
+      "text": "I could not find a favourite language is the library, so I cannot it.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 77,
+      "elapsed_sec": 1.2131002340001942,
+      "argument_ok": null
+    },
+    {
+      "id": "multi_01",
+      "category": "multi_tool",
+      "prompt": "Look up BM25 in the library and also compute 12 times 12.",
+      "expected": [
+        "local_search",
+        "calculator"
+      ],
+      "called": [
+        "local_search",
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "quantisation inference speed",
+            "limit": 1
+          },
+          "ok": true
+        },
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "39 * 15"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The distance is 2.",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 100,
+      "elapsed_sec": 1.6889638970005763,
+      "argument_ok": false
+    }
+  ],
+  "checkpoint": {
+    "checkpoint": "checkpoints/sft_v3/latest.pt",
+    "step": 1100,
+    "parameters": 49035776,
+    "breakdown": {
+      "embedding": 8192000,
+      "blocks": 40843264,
+      "final_norm": 512,
+      "lm_head": 0,
+      "total": 49035776,
+      "non_embedding": 40843776
+    },
+    "vocab_size": 16000,
+    "max_seq_len": 256,
+    "device": "cpu",
+    "tokenizer": "data/tokenizer/tiny50_sp.model"
+  },
+  "data": "datasets/instructions/tool_selection_eval.jsonl",
+  "settings": {
+    "max_iterations": 2,
+    "max_new_tokens": 120,
+    "max_context_tokens": 180,
+    "temperature": 0.0,
+    "decoding": "greedy"
+  },
+  "timestamp": "2026-11-23T05:32:39Z"
+}
