@@ -1,0 +1,27 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.logs/
+*.egg-info/
+
+# Generated artifacts (rebuildable)
+checkpoints/*.pt
+checkpoints/*.json
+data/tokenizer/*.model
+data/tokenizer/*.vocab
+datasets/**/*.bin
+datasets/**/*.npy
+datasets/**/*.idx.json
+datasets/processed/
+datasets/pretraining/seed_generated/
+datasets/pretraining/external/
+# Benchmark evidence is intentionally committed
+!storage/benchmark.json
+storage/*.db
+storage/*.db-*
+storage/documents/
+
+# Quantized weights
+*.int8.pt
+*.int4.pt

@@ -1,0 +1,9 @@
+# TinyLM-50 runtime + training dependencies.
+# CPU-only installs can use:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch>=2.2
+sentencepiece>=0.1.99
+pyyaml>=6.0
+numpy>=1.24
+pypdf>=4.0
+pytest>=8.0

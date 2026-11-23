@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "note": "Optional external corpora for real pretraining. Nothing is downloaded unless the user runs `python -m data.fetch --confirm --source <name>`. Review each licence before use; verify the current terms on the upstream page.",
+  "sources": [
+    {
+      "name": "tinystories",
+      "description": "Synthetic short stories for small language models (Ronen Eldan, Yuanzhi Li).",
+      "url": "https://huggingface.co/datasets/roneneldan/TinyStories",
+      "license": "CDLA-Sharing-1.0",
+      "format": "json",
+      "approx_tokens": 470000000,
+      "category": "prose"
+    },
+    {
+      "name": "gutenberg",
+      "description": "Public-domain books from Project Gutenberg (plain text).",
+      "url": "https://www.gutenberg.org/cache/epub/1342/pg1342.txt",
+      "license": "Public domain (US) / Project Gutenberg License",
+      "format": "txt",
+      "approx_tokens": 130000,
+      "category": "prose"
+    },
+    {
+      "name": "python-docs",
+      "description": "Python language reference and tutorial sources (reStructuredText).",
+      "url": "https://docs.python.org/3/",
+      "license": "PSF License / CC BY-SA for docs",
+      "format": "html",
+      "approx_tokens": 5000000,
+      "category": "technical"
+    },
+    {
+      "name": "openwebmath",
+      "description": "Mathematical web text filtered for quality (requires the Hugging Face hub).",
+      "url": "https://huggingface.co/datasets/open-web-math/open-web-math",
+      "license": "ODC-By 1.0",
+      "format": "json",
+      "approx_tokens": 14000000000,
+      "category": "math"
+    }
+  ]
+}

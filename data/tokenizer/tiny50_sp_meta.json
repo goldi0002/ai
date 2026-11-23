@@ -1,0 +1,37 @@
+{
+  "model_file": "tiny50_sp.model",
+  "vocab_size": 16000,
+  "model_type": "bpe",
+  "special_tokens": [
+    "<pad>",
+    "<unk>",
+    "<bos>",
+    "<eos>",
+    "<user>",
+    "<assistant>",
+    "<system>",
+    "<tool_call>",
+    "<tool_result>",
+    "<research>",
+    "<evidence>",
+    "<final>"
+  ],
+  "special_ids": {
+    "<pad>": 0,
+    "<unk>": 1,
+    "<bos>": 2,
+    "<eos>": 3,
+    "<user>": 4,
+    "<assistant>": 5,
+    "<system>": 6,
+    "<tool_call>": 7,
+    "<tool_result>": 8,
+    "<research>": 9,
+    "<evidence>": 10,
+    "<final>": 11
+  },
+  "unk_id": 1,
+  "bos_id": 2,
+  "eos_id": 3,
+  "pad_id": 0
+}

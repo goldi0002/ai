@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tinylm-50"
+version = "0.1.0"
+description = "TinyLM-50: a ~50M parameter offline-first language model and local assistant"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.2",
+    "sentencepiece>=0.1.99",
+    "pyyaml>=6.0",
+    "numpy>=1.24",
+    "pypdf>=4.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+tinylm = "runtime.cli:main"
+
+[tool.setuptools]
+packages = [
+    "model",
+    "data",
+    "training",
+    "agent",
+    "memory",
+    "tools",
+    "runtime",
+    "evaluation",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

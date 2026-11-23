@@ -1,0 +1,98 @@
+# TinyLM-50 configuration.
+# Model, tokenizer, training, fine-tuning and runtime settings are kept in
+# separate sections on purpose: the model config is saved inside every
+# checkpoint, while training settings are recorded alongside it.
+
+model:
+  vocab_size: 16000
+  hidden_size: 512
+  num_layers: 14
+  num_heads: 8
+  num_kv_heads: 2
+  head_dim: 64
+  ffn_hidden_size: 1472   # 2.875x hidden; chosen to land at ~49.0M params
+  max_seq_len: 1024
+  rope_theta: 10000.0
+  rms_norm_eps: 0.00001
+  tie_embeddings: true
+  dropout: 0.0
+  initializer_range: 0.02
+  # Special token ids are assigned by the tokenizer and re-checked at load time.
+  pad_token_id: 0
+  unk_token_id: 15999
+  bos_token_id: 2
+  eos_token_id: 3
+
+tokenizer:
+  vocab_size: 16000
+  model_type: bpe
+  character_coverage: 0.9995
+  model_prefix: data/tokenizer/tiny50_sp
+  special_tokens:
+    - "<pad>"
+    - "<unk>"
+    - "<bos>"
+    - "<eos>"
+    - "<user>"
+    - "<assistant>"
+    - "<system>"
+    - "<tool_call>"
+    - "<tool_result>"
+    - "<research>"
+    - "<evidence>"
+    - "<final>"
+
+training:
+  seed: 1337
+  batch_size: 4            # per-device micro batch
+  grad_accum_steps: 8
+  max_steps: 20000
+  warmup_ratio: 0.02
+  learning_rate: 0.0003
+  min_lr_ratio: 0.1
+  weight_decay: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  grad_clip: 1.0
+  precision: auto          # auto | bf16 | fp16 | fp32
+  num_workers: 2
+  log_every: 10
+  eval_every: 500
+  eval_batches: 20
+  checkpoint_every: 1000
+  checkpoint_dir: checkpoints
+  gradient_checkpointing: false
+  compile: false
+
+sft:
+  batch_size: 2
+  grad_accum_steps: 4
+  max_steps: 2000
+  warmup_ratio: 0.02
+  learning_rate: 0.00005
+  min_lr_ratio: 0.1
+  weight_decay: 0.01
+  grad_clip: 1.0
+  precision: auto
+  log_every: 10
+  eval_every: 100
+  checkpoint_every: 200
+  checkpoint_dir: checkpoints
+  max_seq_len: 1024
+
+runtime:
+  checkpoint: checkpoints/latest.pt
+  tokenizer: data/tokenizer/tiny50_sp.model
+  max_new_tokens: 256
+  temperature: 0.7
+  top_p: 0.9
+  device: auto
+  precision: auto
+
+agent:
+  max_iterations: 4
+  tool_timeout_seconds: 5.0
+  db_path: storage/tinylm.db
+  document_root: datasets/documents
+  max_context_tokens: 1024
+  require_tool_approval: false
