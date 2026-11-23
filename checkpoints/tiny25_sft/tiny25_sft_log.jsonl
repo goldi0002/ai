@@ -1,0 +1,1 @@
+{"run": "tiny25_sft", "step": 100, "max_steps": 1500, "lr": 0.00029853485737692633, "train_loss": 3.174193126692172, "grad_norm": 2.4033789443969726, "tokens_seen": 26059, "tokens_per_sec": 461.09533080862, "elapsed_sec": 56.51542806625366, "eta": "13m11s"}
