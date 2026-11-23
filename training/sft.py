@@ -22,6 +22,7 @@ from model.tokenizer import TinyTokenizer
 
 from .common import load_checkpoint, load_yaml, pick_device, pick_dtype, section, set_seed
 from .data import ConversationSource, read_conversations, split_conversations
+from .fresh_calc import FreshCalcSource
 from .trainer import Trainer, TrainingConfig
 
 
@@ -44,6 +45,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--precision", default=None)
     parser.add_argument("--valid-ratio", type=float, default=0.1)
     parser.add_argument("--seed", type=int, default=1337)
+    parser.add_argument("--fresh-calc", type=float, default=0.0, help="fraction of each batch drawn from a stream of freshly generated calculator conversations")
     return parser
 
 
@@ -95,13 +97,11 @@ def main(argv: Iterable[str] | None = None) -> int:
             return 1
         model_cfg = saved_cfg
 
-    source = ConversationSource(
-        train_samples,
-        valid_samples,
-        tokenizer,
-        max_seq_len=min(train_cfg.max_seq_len, model_cfg.max_seq_len),
-        seed=args.seed,
-    )
+    source_kwargs = dict(max_seq_len=min(train_cfg.max_seq_len, model_cfg.max_seq_len), seed=args.seed)
+    if args.fresh_calc > 0:
+        source = FreshCalcSource(train_samples, valid_samples, tokenizer, fresh_fraction=args.fresh_calc, **source_kwargs)
+    else:
+        source = ConversationSource(train_samples, valid_samples, tokenizer, **source_kwargs)
     source.tokenizer_meta = {"special_ids": tokenizer.special_ids, "vocab_size": tokenizer.vocab_size}
     model = TinyLM(model_cfg)
     if start_payload is not None:
