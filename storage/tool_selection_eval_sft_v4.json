@@ -1,0 +1,675 @@
+{
+  "summary": {
+    "cases": 25,
+    "first_tool_accuracy": 0.32,
+    "exact_set_accuracy": 0.28,
+    "invalid_call_rate": 0.08,
+    "missing_tool_rate": 0.85,
+    "argument_accuracy": 0.0,
+    "argument_cases": 7,
+    "no_tool_false_positive_rate": 0.0,
+    "tool_use_cases": 20,
+    "direct_cases": 5,
+    "per_category": {
+      "calculator": {
+        "cases": 6,
+        "first_tool_ok": 2,
+        "exact_set_ok": 2,
+        "invalid": 2,
+        "first_tool_accuracy": 0.3333333333333333,
+        "exact_set_accuracy": 0.3333333333333333,
+        "invalid_rate": 0.3333333333333333
+      },
+      "list_files": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "local_search": {
+        "cases": 5,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "multi_tool": {
+        "cases": 1,
+        "first_tool_ok": 1,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 1.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "no_tool": {
+        "cases": 4,
+        "first_tool_ok": 4,
+        "exact_set_ok": 4,
+        "invalid": 0,
+        "first_tool_accuracy": 1.0,
+        "exact_set_accuracy": 1.0,
+        "invalid_rate": 0.0
+      },
+      "read_document": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "retrieve_memory": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "save_memory": {
+        "cases": 2,
+        "first_tool_ok": 0,
+        "exact_set_ok": 0,
+        "invalid": 0,
+        "first_tool_accuracy": 0.0,
+        "exact_set_accuracy": 0.0,
+        "invalid_rate": 0.0
+      },
+      "unavailable_tool": {
+        "cases": 1,
+        "first_tool_ok": 1,
+        "exact_set_ok": 1,
+        "invalid": 0,
+        "first_tool_accuracy": 1.0,
+        "exact_set_accuracy": 1.0,
+        "invalid_rate": 0.0
+      }
+    },
+    "wall_clock_sec": 18.792215602000397,
+    "cases_with_parse_errors": 1
+  },
+  "results": [
+    {
+      "id": "calc_01",
+      "category": "calculator",
+      "prompt": "Compute 48 divided by 6, then add 11.",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "(14 + 29 * 13 + 10) / 4"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "The",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 62,
+      "elapsed_sec": 0.9172095650001211,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_02",
+      "category": "calculator",
+      "prompt": "What is 19 percent of 250?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "A3) thesave,toe\"name\":\"calculator\",\"arguments\":{\"expression\":\"36 * 12 / 100 / 100) * 10.1000 day is 10.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 75,
+      "elapsed_sec": 0.9497881159995814,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_03",
+      "category": "calculator",
+      "prompt": "How many seconds are in 3.5 hours?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "A {\"name\":\"calculator\",\"arguments\":{\"expression\":\"12 * 20\"}}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 44,
+      "elapsed_sec": 0.5277915149999899,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_04",
+      "category": "calculator",
+      "prompt": "What is 2 to the power of 12?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [
+        "calculator"
+      ],
+      "calls": [
+        {
+          "name": "calculator",
+          "arguments": {
+            "expression": "3609 + 2 + 25) / 2"
+          },
+          "ok": false
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": true,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "S",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 56,
+      "elapsed_sec": 0.8620792850006183,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_05",
+      "category": "calculator",
+      "prompt": "Add 137 and 468.",
+      "expected": [
+        "calculator"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "{\"name\":\"calculator\",\"arguments\":{\"expression\":\"29 * 45 / 100\"}}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 46,
+      "elapsed_sec": 0.6557385140004044,
+      "argument_ok": false
+    },
+    {
+      "id": "calc_06",
+      "category": "calculator",
+      "prompt": "What is 5 divided by 0?",
+      "expected": [
+        "calculator"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": true,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "{\" delvailable.\",\"tags\":\"projects ins\",\"importance\":0.5}}",
+      "errors": [
+        "tool call is not valid JSON: '{\"name\":\"local_search\",\"arguments\":{\"qu,\"megon,\"limit\":3}}'"
+      ],
+      "iterations": 2,
+      "tokens_generated": 86,
+      "elapsed_sec": 1.430219459,
+      "argument_ok": false
+    },
+    {
+      "id": "search_01",
+      "category": "local_search",
+      "prompt": "What does the local library say about document length normalisation?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "I do not have, I cannot manages a c, repeator, read_search, read_argory n:\"path my,\"impory,\"impuments {\",\"name\":\"sculator\",\"arguments\":{\"expression\":\"importing is*memory_ame\",\"limit\":\":\":\",\"importxt\":\"re us,\"imp us\"",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 120,
+      "elapsed_sec": 1.865034275000653,
+      "argument_ok": null
+    },
+    {
+      "id": "search_02",
+      "category": "local_search",
+      "prompt": "Find passages about KV caches.",
+      "expected": [
+        "local_search"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "That needs a phone tool, which I do not have. I can use calculator, local_search, read_document, list_files, retrieve_memory and save_memory.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 60,
+      "elapsed_sec": 0.808376481999403,
+      "argument_ok": null
+    },
+    {
+      "id": "search_03",
+      "category": "local_search",
+      "prompt": "Why does the memory document say notes can become stale?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "A / {\"name\":\"local_search\",\"arguments\":{\"query\":\"*memory\"* use,\"limit\":3}}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 50,
+      "elapsed_sec": 0.6845064879998972,
+      "argument_ok": null
+    },
+    {
+      "id": "search_04",
+      "category": "local_search",
+      "prompt": "Search the library for guidance on chunk overlap.",
+      "expected": [
+        "local_search"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "Sorry, I cannot manage a calend, read_memory} , local_s c, retr_search, read_document, {\"name\":\"local_searchery\",\"arguments\":{\"query\":\"editor\",\"limit\":\"limit\":0.7}}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 93,
+      "elapsed_sec": 1.2536584459994629,
+      "argument_ok": null
+    },
+    {
+      "id": "search_05",
+      "category": "local_search",
+      "prompt": "What does the tool protocol say about duplicate calls?",
+      "expected": [
+        "local_search"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "Sorry, I cannot manage, so I cannotinges and sa. My available tools are calcul, local_search, read_d, retrieve_mem, retrieve_memory and save_memory.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 69,
+      "elapsed_sec": 0.9260126509998372,
+      "argument_ok": null
+    },
+    {
+      "id": "read_01",
+      "category": "read_document",
+      "prompt": "Open memory_systems.md and summarise what the schema stores.",
+      "expected": [
+        "read_document"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "{\"name\":\"local_search\",\"arguments\":{\"query\":\"tool result shape\",\"limit\":1}}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 44,
+      "elapsed_sec": 0.6015276560001439,
+      "argument_ok": null
+    },
+    {
+      "id": "read_02",
+      "category": "read_document",
+      "prompt": "Show me the beginning of quantization.md.",
+      "expected": [
+        "read_document"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "_dj d can use, so I cannot make c, retrtaance, read_memory and save_spatory.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 51,
+      "elapsed_sec": 0.7052583520007829,
+      "argument_ok": null
+    },
+    {
+      "id": "list_01",
+      "category": "list_files",
+      "prompt": "List the PDF files in the library.",
+      "expected": [
+        "list_files"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "Sorry, I cannot make calls use, so I do not have it ost and save_memory, local_s.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 38,
+      "elapsed_sec": 0.5025603519998185,
+      "argument_ok": null
+    },
+    {
+      "id": "list_02",
+      "category": "list_files",
+      "prompt": "Which Markdown documents are available?",
+      "expected": [
+        "list_files"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "Sorry, I cannot make calls, so}}} use calculator, local_memory, read_search, read_files, retrieve_memory and save_memory.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 61,
+      "elapsed_sec": 0.761089444999925,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_get_01",
+      "category": "retrieve_memory",
+      "prompt": "What did I ask you to remember about my editor?",
+      "expected": [
+        "retrieve_memory"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "That needs a email tool, which I do not have, read_files:{\":{\" lofile,\"max_memoryve_s name\":3}}",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 47,
+      "elapsed_sec": 0.7342380459995184,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_get_02",
+      "category": "retrieve_memory",
+      "prompt": "Recall my saved project name.",
+      "expected": [
+        "retrieve_memory"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "Sorry, I cannot make calls or day, so I. I only have calculator, local_search, read_document, list_files, retrieve_memory and save_memory.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 63,
+      "elapsed_sec": 0.8124394740007119,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_save_01",
+      "category": "save_memory",
+      "prompt": "Please remember that I prefer metric units.",
+      "expected": [
+        "save_memory"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "Sorry, I cannot manage a c, so I and flpre day tools the.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 28,
+      "elapsed_sec": 0.41216986600011296,
+      "argument_ok": null
+    },
+    {
+      "id": "memory_save_02",
+      "category": "save_memory",
+      "prompt": "Save a note that my deploy target is staging.",
+      "expected": [
+        "save_memory"
+      ],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": false,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": true,
+      "false_positive": false,
+      "text": "Sorry, I cannot manage, so I cannot call and saimeesmsdocumms, read_s are.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 36,
+      "elapsed_sec": 0.5184995229992637,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_01",
+      "category": "no_tool",
+      "prompt": "Write a one-line greeting.",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "Sorry, I cannot send emails. I only have c*. I only have.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 27,
+      "elapsed_sec": 0.33417016200019134,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_02",
+      "category": "no_tool",
+      "prompt": "In one sentence, what is a cache?",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "Sorry, I cannot make calls.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 16,
+      "elapsed_sec": 0.1868240469993907,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_03",
+      "category": "no_tool",
+      "prompt": "Name one benefit of unit tests.",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "3),* {\"not make the add* haveentableage, local toarg, read_docum, readdocum",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 37,
+      "elapsed_sec": 0.39466274099959264,
+      "argument_ok": null
+    },
+    {
+      "id": "direct_04",
+      "category": "no_tool",
+      "prompt": "Say goodbye briefly.",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "Sorry, I cannot make calls {\"name is thef codeal.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 27,
+      "elapsed_sec": 0.32753009899988683,
+      "argument_ok": null
+    },
+    {
+      "id": "unavailable_01",
+      "category": "unavailable_tool",
+      "prompt": "Send an email to my manager about the delay.",
+      "expected": [],
+      "called": [],
+      "calls": [],
+      "first_tool_ok": true,
+      "exact_set_ok": true,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "That needs a find a value program, so I cannot make calb on or send {\"name\":\"save_memory\",\"arguments\":{\"query\":\"*.timezone is favour.\",\"limit\":*.",
+      "errors": [],
+      "iterations": 1,
+      "tokens_generated": 74,
+      "elapsed_sec": 0.9600305969997862,
+      "argument_ok": null
+    },
+    {
+      "id": "multi_01",
+      "category": "multi_tool",
+      "prompt": "Look up BM25 in the library and also compute 12 times 12.",
+      "expected": [
+        "local_search",
+        "calculator"
+      ],
+      "called": [
+        "local_search"
+      ],
+      "calls": [
+        {
+          "name": "local_search",
+          "arguments": {
+            "query": "memory / 1"
+          },
+          "ok": true
+        }
+      ],
+      "first_tool_ok": true,
+      "exact_set_ok": false,
+      "invalid_call": false,
+      "missed_tool": false,
+      "false_positive": false,
+      "text": "* 10\"",
+      "errors": [],
+      "iterations": 2,
+      "tokens_generated": 47,
+      "elapsed_sec": 0.6607050759994308,
+      "argument_ok": false
+    }
+  ],
+  "checkpoint": {
+    "checkpoint": "checkpoints/sft_v4/latest.pt",
+    "step": 3000,
+    "parameters": 49035776,
+    "breakdown": {
+      "embedding": 8192000,
+      "blocks": 40843264,
+      "final_norm": 512,
+      "lm_head": 0,
+      "total": 49035776,
+      "non_embedding": 40843776
+    },
+    "vocab_size": 16000,
+    "max_seq_len": 256,
+    "device": "cpu",
+    "tokenizer": "data/tokenizer/tiny50_sp.model"
+  },
+  "data": "datasets/instructions/tool_selection_eval.jsonl",
+  "settings": {
+    "max_iterations": 2,
+    "max_new_tokens": 120,
+    "max_context_tokens": 180,
+    "temperature": 0.0,
+    "decoding": "greedy"
+  },
+  "timestamp": "2026-11-23T07:39:46Z"
+}

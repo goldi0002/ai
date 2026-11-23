@@ -1,0 +1,1 @@
+{"run": "sft_v5", "step": 100, "max_steps": 1200, "lr": 4.954990224314127e-05, "train_loss": 5.765323368961636, "grad_norm": 3.548451738357544, "tokens_seen": 26476, "tokens_per_sec": 275.0962154058375, "elapsed_sec": 96.24269080162048, "eta": "17m38s"}
