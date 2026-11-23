@@ -9,7 +9,6 @@
     python -m runtime.cli tools
     python -m runtime.cli benchmark --out storage/benchmark.json
     python -m runtime.cli quantize --bits 8
-    python -m runtime.cli drex --state "..." --questions '{"q": {...}}'
 """
 
 from __future__ import annotations
@@ -26,8 +25,6 @@ from typing import Any, Dict, Iterable, Optional
 from memory.store import MemoryStore
 from model.config import TinyLMConfig
 from training.common import load_yaml, section
-from tools.drex import DEFAULT_MODEL as DREX_DEFAULT_MODEL
-from tools.drex import DEFAULT_THRESHOLD as DREX_DEFAULT_THRESHOLD
 from tools.research import ResearchEngine
 
 CONFIG_PATH = Path("configs/tiny50.yaml")
@@ -394,51 +391,6 @@ def cmd_quantize(args: argparse.Namespace) -> int:
     return 0
 
 
-def cmd_drex(args: argparse.Namespace) -> int:
-    from tools.drex import DrexError, decide
-
-    try:
-        questions = json.loads(args.questions)
-    except json.JSONDecodeError as exc:
-        print(f"error: --questions is not JSON: {exc.msg}", file=sys.stderr)
-        return 1
-    try:
-        result = decide(
-            args.state,
-            questions,
-            model=args.model,
-            threshold=args.threshold,
-        )
-    except DrexError as exc:
-        print(f"error: {exc}", file=sys.stderr)
-        return 1
-    if args.json:
-        print(json.dumps(result, indent=2))
-        return 0
-    usage = result["usage"]
-    print(
-        f"model {result['model']}  request {result['request_id']}  "
-        f"tokens {usage['input_tokens']}+{usage['output_tokens']}"
-    )
-    for name, answer in result["answers"].items():
-        if answer["type"] == "noul":
-            print(
-                f"{name}: noul {answer['probability']:.4f} -> {answer['decision']}"
-                + ("  (needs review)" if answer["needs_review"] else "")
-            )
-        elif answer["type"] == "choice":
-            routing = answer["routing"]
-            print(
-                f"{name}: choice {answer['choice']} {routing['probability']:.4f} "
-                f"-> {routing['action']} ({routing['option']})"
-            )
-        elif answer["type"] == "score":
-            print(f"{name}: score {answer['score']:.2f} (0-{len(answer['legend']) - 1})")
-        else:
-            print(f"{name}: {answer['type']}")
-    return 0
-
-
 # --------------------------------------------------------------------- parser
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="tinylm", description="TinyLM-50 command line")
@@ -532,22 +484,6 @@ def build_parser() -> argparse.ArgumentParser:
     quant.add_argument("--out", default=None)
     quant.set_defaults(func=cmd_quantize)
 
-    drex = sub.add_parser("drex", help="ask Nace Drex typed questions about a case state")
-    drex.add_argument("--state", required=True, help="case state: text or a JSON object/array")
-    drex.add_argument(
-        "--questions",
-        required=True,
-        help='JSON object of typed questions, e.g. {"team": {"type": "choice", "instructions": "...", "criteria": {"payments": "Payouts"}}}',
-    )
-    drex.add_argument("--model", default=DREX_DEFAULT_MODEL, help="Drex model id")
-    drex.add_argument(
-        "--threshold",
-        type=float,
-        default=DREX_DEFAULT_THRESHOLD,
-        help="minimum top-option probability to act instead of review",
-    )
-    drex.add_argument("--json", action="store_true")
-    drex.set_defaults(func=cmd_drex)
     return parser
 
 
