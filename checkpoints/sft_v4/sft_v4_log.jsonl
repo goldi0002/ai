@@ -1,0 +1,3 @@
+{"run": "sft_v4", "step": 100, "max_steps": 3000, "lr": 4.99804645254469e-05, "train_loss": 7.417215606686532, "grad_norm": 4.363869607448578, "tokens_seen": 53050, "tokens_per_sec": 292.14215455959516, "elapsed_sec": 181.58967876434326, "eta": "1h27m"}
+{"run": "sft_v4", "step": 200, "max_steps": 3000, "lr": 4.9752264280699823e-05, "train_loss": 3.8857320429086015, "grad_norm": 1.8896736538410186, "tokens_seen": 106330, "tokens_per_sec": 298.2483762265797, "elapsed_sec": 360.2327301502228, "eta": "1h24m"}
+{"run": "sft_v4", "step": 300, "max_steps": 3000, "lr": 4.9270220558307404e-05, "train_loss": 2.381875173312723, "grad_norm": 1.720807092189789, "tokens_seen": 159846, "tokens_per_sec": 290.08595684095945, "elapsed_sec": 544.7159798145294, "eta": "1h21m"}
